@@ -1,0 +1,320 @@
+/* these should be in order used */
+header {
+    display: flex;
+    background-color: rgb(255, 225, 108);
+    height: 8%;
+}
+
+.topLeft {
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+}
+
+.logo {
+    height: 100%;
+    padding-inline-start: 0.5%;
+    padding-right: 0.5%;
+}
+
+.titleText {
+    display: inline-flex;
+    font-size: 6vh;
+    color: rgb(63, 55, 25);
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    letter-spacing: 0.1em;
+    -webkit-text-stroke: 0.5px rgb(167, 122, 32);
+}
+
+.topRight {
+    display: flex;
+    height: 100%;
+    width: 50%;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.topButton {
+    height: 60%;
+    width: 10%;
+    margin-right: 2.5%;
+    font-size: 2vh;
+    color: rgb(255, 255, 255);
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-text-stroke: 0.25px rgb(255, 225, 108);
+    background-color: rgb(167, 122, 32);
+    border-color: rgb(63, 55, 25);
+    border-width: 0.25vh;
+    border-radius: 0.5vh;
+    outline: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.line1px {
+    display: block;
+    height: 0.25vh;
+    background-color: rgb(167, 122, 32);
+}
+
+.line3px {
+    display: block;
+    height: 0.5vh;
+    background-color: rgb(63, 55, 25);
+}
+
+.suliForm {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.suliMobile {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ftText {
+    font-size: 4vh;
+    color: rgb(63, 55, 25);
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    -webkit-text-stroke: 0.5px rgb(167, 122, 32);
+    margin-top: 15vh;
+    margin-bottom: 2.5vh;
+}
+
+.fbText {
+    font-size: 2.25vh;
+    color: rgb(63, 55, 25);
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    letter-spacing: 0.05em;
+    margin-top: 3.5vh;
+    margin-bottom: 1vh;
+}
+
+.fInput {
+    height: 3vh;
+    width: 15%;
+    border-color: rgb(63, 55, 25);
+    border-width: 0.125vh;
+    border-radius: 0.5vh;
+    font-size: 1.5vh;
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: rgb(63, 55, 25);
+    text-align: center;
+    letter-spacing: 0.025em;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    padding-top: 0.75vh;
+    padding-bottom: 0.75vh;
+}
+
+.fInput:focus {
+    border-color: rgb(167, 122, 32);
+    border-width: 0.25vh;
+    outline: none;
+}
+
+.suliButton {
+    height: 3.25vh;
+    width: 7.5%;
+    font-size: 2vh;
+    color: rgb(255, 255, 255);
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-text-stroke: 0.25px rgb(255, 225, 108);
+    background-color: rgb(167, 122, 32);
+    border-color: rgb(63, 55, 25);
+    border-width: 0.25vh;
+    border-radius: 0.5vh;
+    margin-top: 6vh;
+    outline: none;
+}
+
+/* https://www.w3schools.com/howto/howto_css_modals.asp */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+.tasklist {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2.5%;
+}
+
+.listTitle {
+    font-size: 4vh;
+    color: rgb(63, 55, 25);
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    -webkit-text-stroke: 0.5px rgb(167, 122, 32);
+    margin-top: 2.5vh;
+}
+
+.task {
+    display: flex;
+    flex-direction: row;
+    height: 5vh;
+    align-items: center;
+}
+
+.tText {
+    margin-top: 0; 
+    margin-bottom: 0;
+}
+
+.tInput {
+    margin-left: 0.5%;
+    width: 40%;
+    height: fit-content;
+    font-size: 2.25vh;
+    text-align: left;
+}
+
+.buttonWrap {
+    height: 3vh;
+    width: 3vh;
+    margin-left: 0.5%;
+}
+
+.taskButton {
+    height: 3vh;
+    width: 3vh;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(63, 55, 25);
+    border-width: 0.125vh;
+    border-radius: 0.5vh;
+    outline: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.taskIcon {
+    height: 1.75vh;
+}
+
+.buttonWrap:hover .taskButton {
+    border-color: rgb(167, 122, 32);
+    border-width: 0.25vh;
+}
+
+.cpContainer {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    width: 100%;
+    align-items: center;
+}
+
+.centerpiece { height: 30%; }
+
+.cpText {
+    font-size: 3vh;
+    margin-top: 0vh;
+}
+
+.border {
+    position: absolute;
+    width: 9%;
+    top: 10%;
+    left: 90.7%;
+}
+
+@media only screen and (max-width: 2150px) {
+    .topButton { width: 15%; }
+    .fInput { width: 20%; }
+    .suliButton { width: 10%; }
+    .cpText { font-size: 2.75vh; }
+    .border {
+        width: 13%;
+        left: 86.7%;
+    }
+}
+
+@media only screen and (max-width: 1450px) {
+    .topButton { width: 20%; }
+    .fInput { width: 25%; }
+    .suliButton { width: 12.5%; }
+    .cpText { font-size: 2.5vh; }
+    .border {
+        width: 16%;
+        left: 83.7%;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .topButton { width: 25%; }
+    .fInput { width: 30%; }
+    .suliButton { width: 15%; }
+    .cpText { font-size: 2.25vh; }
+    .border { display: none; }
+}
+
+@media only screen and (max-width: 875px) {
+    .topLeft { 
+        width: 100%; 
+        justify-content: center;
+    }
+    .topRight { display: none; }
+    .suliForm {display: none;}
+    .suliMobile { display: flex; }
+    .topButton {
+        width: 50%;
+        height: fit-content;
+        margin-right: 0%;
+        font-size: 2.5vh;
+        font-weight: 400;
+        border-width: 0.25vh;
+        border-radius: 0.5vh;
+        padding: 0.75vh;
+        margin-top: 5vh;
+        margin-bottom: 2vh;
+    }
+    .fInput { width: 60%; }
+    .suliButton { width: 30%; }
+    .centerpiece { 
+        height: 10vh;
+        margin-top: 10vh; 
+    }
+    .cpContainer { display: none; }
+}

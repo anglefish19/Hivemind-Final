@@ -1,0 +1,154 @@
+<! There's some bits of code and files in this project that are extraneous for 
+this assignment; I kept them in here because there's a specific direction I want 
+to take this and I think they'll be useful when I'm working on that future thing.>
+
+<! https://developer.mozilla.org/en-US/docs/Web/HTML/Element >
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title>hivemind</title>
+        <! https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics >
+        <link href = "stylesheet.css" rel = "stylesheet">
+        <link href = "images/icon.png" rel = "icon">
+
+        <!-- https://stackoverflow.com/questions/22268881/referenceerror-is-not-defined
+             https://www.w3schools.com/jquery/jquery_get_started.asp -->
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    
+    <body>
+        <!-- top of page (logo, name of app, sign up, log in) -->
+        <header>
+            <button onclick = "display()" id = "homeButton" class = "topLeft">
+                <img src = "images/logo.png" alt = "logo" class = "logo"></img>
+                <div id = "titleText" class = "titleText">hivemind</div>
+            </button>
+
+            <div id = "topRight" class = "topRight">
+                <button onclick = "display('suForm1')" id = "signUpButton" class = "topButton">
+                    sign up
+                </button>
+                <button onclick = "display('liForm')" id = "logInButton" class = "topButton">
+                    log in
+                </button>
+                <button onclick = "lo()" id = "logOutButton" class = "topButton"
+                style = "display: none;">
+                    log out
+                </button>
+            </div>
+        </header>
+
+        <!-- line dividers -->
+        <div id = "lineTop" class = "line1px"></div>
+        <div id = "lineMiddle" class = "line3px"></div>
+        <div id = "lineBottom" class = "line1px"></div>
+
+        <!-- elements of sign up/log in forms -->
+        <div id = "suFormTitle" class = "suliForm">
+            <div id = "formTitleText" class = "ftText">- sign up -</div>
+        </div>
+
+        <div id = "liFormTitle" class = "suliForm">
+            <div id = "formTitleText" class = "ftText">- log in -</div>
+        </div>
+
+        <div id = "suliMobile" class = "suliMobile">
+            <img src = "images/home.png" alt = "cpMobil" class = "centerpiece"></img>
+            <div id = "formTitleText" class = "ftText" style = "margin-top: 5vh;">- sign up/log in -</div>
+            <button onclick = "display('suForm1')" id = "signUpButton" class = "topButton">
+                sign up
+            </button>
+            <button onclick = "display('liForm')" id = "logInButton" class = "topButton">
+                log in
+            </button>
+            <button onclick = "display('liForm')" id = "logOutButton" class = "topButton"
+            style = "display: none;">
+                log out
+            </button>
+        </div>
+
+        <div id = "suForm1" class = "suliForm">
+            <div id = "firstName" class = "fbText">first name:</div>
+            <input type = "text" id = "firstNameInput" class = "fInput"/>
+            <div id = "lastName" class = "fbText">last name:</div>
+            <input type = "text" id = "lastNameInput" class = "fInput"/>
+            <div id = "email" class = "fbText">email:</div>
+            <input type = "email" id = "emailInput" class = "fInput"/>
+            <button onclick = "suNext()" id = "suNextButton" class = "suliButton">
+                next
+            </button>
+        </div>
+
+        <div id = "suForm2" class = "suliForm">
+            <div id = "username" class = "fbText">set username:</div>
+            <input type = "text" id = "usernameInput" class = "fInput"/>
+            <div id = "password1" class = "fbText">set password:</div>
+            <input type = "password" id = "passwordInput1" class = "fInput"/>
+            <div id = "password2" class = "fbText">confirm password:</div>
+            <input type = "password" id = "passwordInput2" class = "fInput"/>
+            <button onclick = "su()" id = "suButton" class = "suliButton">
+                sign up!
+            </button>
+        </div>
+
+        <div id = "liForm" class = "suliForm">
+            <div id = "emailLI" class = "fbText">email:</div>
+            <input type = "text" id = "emailInputLI" class = "fInput"/>
+            <div id = "pwLI" class = "fbText">password:</div>
+            <input type = "password" id = "pwInputLI" class = "fInput"/>
+            <button onclick = "li()" id = "liButton" class = "suliButton">
+                log in!
+            </button>
+        </div>
+
+        <!-- elements of task list -->
+        <div id = "tasklist" class = "tasklist"  style = "display: none;">
+            <div id = "tasklistTitle" class = "listTitle">tasks:</div>
+            <input type = "text" placeholder = "enter task here" id = "taskItem" 
+            class = "fInput tInput" style = "margin-top: 1vh;"/>
+            <button onclick = "addTask()" id = "addTask" class = "suliButton" 
+            style = "margin-top: 2vh; margin-left: 0.5%;">
+                Add Task
+            </button>
+        </div>
+
+        <!-- display on "home" page -->
+        <div id = "cpContainer" class = "cpContainer" style = "display: none;">
+            <img src = "images/home.png" alt = "centerpiece" class = "centerpiece"></img>
+            <div id = "cpText" class = "fbText cpText">
+                Get started by signing up or logging in!
+            </div> 
+        </div>
+
+        <!-- hexagon border -->
+        <img src = "images/border.png" alt = "border" class = "border"></img> 
+        
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-firestore.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBL9nu533tMMPnu6OZH41onMsJ6dyomdPw",
+            authDomain: "hivemind-36edb.firebaseapp.com",
+            projectId: "hivemind-36edb",
+            storageBucket: "hivemind-36edb.appspot.com",
+            messagingSenderId: "400583586189",
+            appId: "1:400583586189:web:b1d6c8daf1f1bf093a4dc4"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        </script>
+
+        <script src="scripts/auth.js"></script>
+        <script src="scripts/userFunctionality.js"></script>
+    </body>
+</html>
