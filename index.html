@@ -1,7 +1,3 @@
-<! There's some bits of code and files in this project that are extraneous for 
-this assignment; I kept them in here because there's a specific direction I want 
-to take this and I think they'll be useful when I'm working on that future thing.>
-
 <! https://developer.mozilla.org/en-US/docs/Web/HTML/Element >
 <html lang="en">
     <head>
@@ -19,30 +15,36 @@ to take this and I think they'll be useful when I'm working on that future thing
     
     <body>
         <!-- top of page (logo, name of app, sign up, log in) -->
-        <header>
-            <button onclick = "display()" id = "homeButton" class = "topLeft">
-                <img src = "images/logo.png" alt = "logo" class = "logo"></img>
-                <div id = "titleText" class = "titleText">hivemind</div>
-            </button>
+        <div id = "topOfPage"></div>
 
-            <div id = "topRight" class = "topRight">
-                <button onclick = "display('suForm1')" id = "signUpButton" class = "topButton">
-                    sign up
-                </button>
-                <button onclick = "display('liForm')" id = "logInButton" class = "topButton">
-                    log in
-                </button>
-                <button onclick = "lo()" id = "logOutButton" class = "topButton"
-                style = "display: none;">
-                    log out
-                </button>
-            </div>
-        </header>
+        <script>
+            var topRepeated = '<header>' +
+                '<button onclick = "display()" id = "homeButton" class = "topLeft">' +
+                    '<img src = "images/logo.png" alt = "logo" class = "logo"></img>' +
+                    '<div id = "titleText" class = "titleText">hivemind</div>' +
+                '</button>' +
 
-        <!-- line dividers -->
-        <div id = "lineTop" class = "line1px"></div>
-        <div id = "lineMiddle" class = "line3px"></div>
-        <div id = "lineBottom" class = "line1px"></div>
+                '<div id = "topRight" class = "topRight">' +
+                    '<button onclick = "display(\'suForm1\')" id = "signUpButton" class = "topButton">' +
+                        'sign up' +
+                    '</button>' +
+                    '<button onclick = "display(\'liForm\')" id = "logInButton" class = "topButton">' +
+                        'log in' +
+                    '</button>' +
+                    '<button onclick = "lo()" id = "logOutButton" class = "topButton"' +
+                    'style = "display: none;">' +
+                        'log out' +
+                    '</button>' +
+                '</div>' +
+            '</header>' +
+
+            '<!-- line dividers -->' +
+            '<div id = "lineTop" class = "line1px"></div>' +
+            '<div id = "lineMiddle" class = "line3px"></div>' +
+            '<div id = "lineBottom" class = "line1px"></div>'
+
+            document.getElementById("topOfPage").innerHTML = topRepeated
+        </script>
 
         <!-- elements of sign up/log in forms -->
         <div id = "suFormTitle" class = "suliForm">
