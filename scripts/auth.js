@@ -15,90 +15,90 @@ var userID;
 var email;
 
 // controls which elements are displayed
-function display(formID) {
-    if (formID === "suForm1" && window.getComputedStyle(suForm1).display === "none" &&
-    window.getComputedStyle(suForm2).display === "none") {
-        suForm1.style.display = "flex";
-        suForm2.style.display = "none";
-        suTitle.style.display = "flex";
-        liForm.style.display = "none";
-        liTitle.style.display = "none";
-        suliMobile.style.display = "none";
-        cpContainer.style.display = "none";
-    }
-    else if (formID === "liForm" && window.getComputedStyle(liForm).display === "none") {
-        suForm1.style.display = "none";
-        suForm2.style.display = "none";
-        suTitle.style.display = "none";
-        liForm.style.display = "flex";
-        liTitle.style.display = "flex";
-        suliMobile.style.display = "none";
-        cpContainer.style.display = "none";
-    }
-    else if (formID === "maintain") {
-        if (window.getComputedStyle(suForm1).display === "none" &&
-        window.getComputedStyle(suForm2).display === "none" &&
-        window.getComputedStyle(liForm).display === "none" && 
-        loButton.style.display === "none") {
-            if ($(window).width() <= 875) {
-                suliMobile.style.display = "flex";
-                cpContainer.style.display = "none";
-            }
-            else {
-                suliMobile.style.display = "none";
-                cpContainer.style.display = "flex";
-            }
-        }
-    }
-    else {
-        document.getElementById("firstNameInput").value = "";
-        document.getElementById("lastNameInput").value = "";
-        document.getElementById("emailInput").value = "";
-        document.getElementById("usernameInput").value = "";
-        document.getElementById("passwordInput1").value = "";
-        document.getElementById("passwordInput2").value = "";
-        document.getElementById("emailInputLI").value = "";
-        document.getElementById("pwInputLI").value = "";
+// function display(formID) {
+//     if (formID === "suForm1" && window.getComputedStyle(suForm1).display === "none" &&
+//     window.getComputedStyle(suForm2).display === "none") {
+//         suForm1.style.display = "flex";
+//         suForm2.style.display = "none";
+//         suTitle.style.display = "flex";
+//         liForm.style.display = "none";
+//         liTitle.style.display = "none";
+//         suliMobile.style.display = "none";
+//         cpContainer.style.display = "none";
+//     }
+//     else if (formID === "liForm" && window.getComputedStyle(liForm).display === "none") {
+//         suForm1.style.display = "none";
+//         suForm2.style.display = "none";
+//         suTitle.style.display = "none";
+//         liForm.style.display = "flex";
+//         liTitle.style.display = "flex";
+//         suliMobile.style.display = "none";
+//         cpContainer.style.display = "none";
+//     }
+//     else if (formID === "maintain") {
+//         if (window.getComputedStyle(suForm1).display === "none" &&
+//         window.getComputedStyle(suForm2).display === "none" &&
+//         window.getComputedStyle(liForm).display === "none" && 
+//         loButton.style.display === "none") {
+//             if ($(window).width() <= 875) {
+//                 suliMobile.style.display = "flex";
+//                 cpContainer.style.display = "none";
+//             }
+//             else {
+//                 suliMobile.style.display = "none";
+//                 cpContainer.style.display = "flex";
+//             }
+//         }
+//     }
+//     else {
+//         document.getElementById("firstNameInput").value = "";
+//         document.getElementById("lastNameInput").value = "";
+//         document.getElementById("emailInput").value = "";
+//         document.getElementById("usernameInput").value = "";
+//         document.getElementById("passwordInput1").value = "";
+//         document.getElementById("passwordInput2").value = "";
+//         document.getElementById("emailInputLI").value = "";
+//         document.getElementById("pwInputLI").value = "";
 
-        suForm1.style.display = "none";
-        suForm2.style.display = "none";
-        suTitle.style.display = "none";
-        liForm.style.display = "none";
-        liTitle.style.display = "none";
+//         suForm1.style.display = "none";
+//         suForm2.style.display = "none";
+//         suTitle.style.display = "none";
+//         liForm.style.display = "none";
+//         liTitle.style.display = "none";
 
-        if (formID === "logged in") {
-            suButton.style.display = "none";
-            liButton.style.display = "none";
-            loButton.style.display = "flex";
-            tasklist.style.display = "flex";
+//         if (formID === "logged in") {
+//             suButton.style.display = "none";
+//             liButton.style.display = "none";
+//             loButton.style.display = "flex";
+//             tasklist.style.display = "flex";
 
-            dynamicList = document.createElement("ul");
-            dynamicList.setAttribute("id", "dynamicList");
-            document.getElementById("tasklistTitle").append(dynamicList);
-        }
-        else {
-            suButton.style.display = "flex";
-            liButton.style.display = "flex";
-            loButton.style.display = "none";
-            tasklist.style.display = "none";
+//             dynamicList = document.createElement("ul");
+//             dynamicList.setAttribute("id", "dynamicList");
+//             document.getElementById("tasklistTitle").append(dynamicList);
+//         }
+//         else {
+//             suButton.style.display = "flex";
+//             liButton.style.display = "flex";
+//             loButton.style.display = "none";
+//             tasklist.style.display = "none";
 
-            if ($(window).width() <= 875) {
-                suliMobile.style.display = "flex";
-                cpContainer.style.display = "none";
-            }
-            else {
-                suliMobile.style.display = "none";
-                cpContainer.style.display = "flex";
-            }
-        }
-    }
-}
+//             if ($(window).width() <= 875) {
+//                 suliMobile.style.display = "flex";
+//                 cpContainer.style.display = "none";
+//             }
+//             else {
+//                 suliMobile.style.display = "none";
+//                 cpContainer.style.display = "flex";
+//             }
+//         }
+//     }
+// }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event
 // https://www.w3schools.com/jsref/met_document_addeventlistener.asp
 // fixed param issue with second link ^
 // adjusts elements when window is resized
-window.addEventListener("resize", function() { display("maintain") });
+// window.addEventListener("resize", function() { display("maintain") });
 
 // goes to next page of sign up
 function suNext() {

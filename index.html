@@ -16,7 +16,7 @@
     <body>
         <!-- top of page (logo, name of app, sign up, log in) -->
         <header>
-            <button id = "homeButton" class = "topLeft">
+            <button onclick = "document.location = 'index.html'" id = "homeButton" class = "topLeft">
                 <img src = "images/logo.png" alt = "logo" class = "logo"></img>
                 <div id = "titleText" class = "titleText">hivemind</div>
             </button>
@@ -37,7 +37,7 @@
         <div id = "lineBottom" class = "line1px"></div>
 
         <!-- sign up/log in for mobile -->
-        <div id = "suliMobile" class = "suliMobile">
+        <div id = "suliMobile" class = "suliMobile" style = "display: none;">
             <img src = "images/home.png" alt = "cpMobil" class = "centerpiece"></img>
             <div id = "formTitleText" class = "ftText" style = "margin-top: 5vh;">- sign up/log in -</div>
             <button onclick = "document.location = 'html/signUp1.html'" id = "signUpButton" class = "topButton">
@@ -47,6 +47,20 @@
                 log in
             </button>
         </div>
+
+        <script>
+            function display() {
+                if ($(window).width() <= 875) {
+                    suliMobile.style.display = "flex";
+                    cpContainer.style.display = "none";
+                }
+                else {
+                    suliMobile.style.display = "none";
+                    cpContainer.style.display = "flex";
+                }
+            }
+            window.addEventListener("resize", function() { display() })
+        </script>
 
         <!-- elements of sign up/log in forms
         <div id = "suFormTitle" class = "suliForm">
@@ -94,7 +108,7 @@
         </div> -->
 
         <!-- elements of task list -->
-        <div id = "tasklist" class = "tasklist"  style = "display: none;">
+        <!-- <div id = "tasklist" class = "tasklist"  style = "display: none;">
             <div id = "tasklistTitle" class = "listTitle">tasks:</div>
             <input type = "text" placeholder = "enter task here" id = "taskItem" 
             class = "fInput tInput" style = "margin-top: 1vh;"/>
@@ -102,10 +116,10 @@
             style = "margin-top: 2vh; margin-left: 0.5%;">
                 Add Task
             </button>
-        </div>
+        </div> -->
 
         <!-- display on "home" page -->
-        <div id = "cpContainer" class = "cpContainer" style = "display: none;">
+        <div id = "cpContainer" class = "cpContainer">
             <img src = "images/home.png" alt = "centerpiece" class = "centerpiece"></img>
             <div id = "cpText" class = "fbText cpText">
                 Get started by signing up or logging in!

@@ -16,21 +16,17 @@
     <body>
         <!-- top of page (logo, name of app, sign up, log in) -->
         <header>
-            <button onclick = "display()" id = "homeButton" class = "topLeft">
+            <button onclick = "document.location = '../index.html'" id = "homeButton" class = "topLeft">
                 <img src = "../images/logo.png" alt = "logo" class = "logo"></img>
                 <div id = "titleText" class = "titleText">hivemind</div>
             </button>
 
             <div id = "topRight" class = "topRight">
-                <button id = "signUpButton" class = "topButton">
-                    <a href="html/signUp1.html">sign up</a>
+                <button onclick = "document.location = 'signUp1.html'" id = "signUpButton" class = "topButton">
+                    sign up
                 </button>
-                <button onclick = "display('liForm')" id = "logInButton" class = "topButton">
+                <button onclick = "document.location = 'logIn.html'" id = "logInButton" class = "topButton">
                     log in
-                </button>
-                <button onclick = "lo()" id = "logOutButton" class = "topButton"
-                style = "display: none;">
-                    log out
                 </button>
             </div>
         </header>

@@ -15,6 +15,12 @@ header {
     outline: none;
 }
 
+/* https://www.tutorialrepublic.com/faq/how-to-change-the-cursor-into-a-hand-pointer-on-hover
+-using-css.php#:~:text=You%20can%20simply%20use%20the,the%20default%20text%20selection%20cursor. */
+.topLeft:hover {
+    cursor: pointer;
+}
+
 .logo {
     height: 100%;
     padding-inline-start: 0.5%;
@@ -60,18 +66,6 @@ header {
     cursor: pointer;
 }
 
-a {
-    font-size: 2vh;
-    color: rgb(255, 255, 255);
-    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    -webkit-text-stroke: 0.25px rgb(255, 225, 108);
-    text-decoration: none;
-}
-
-a:hover {
-    color: rgb(255, 225, 108);
-}
-
 .line1px {
     display: block;
     height: 0.25vh;
@@ -85,13 +79,11 @@ a:hover {
 }
 
 .suliForm {
-    display: none;
     flex-direction: column;
     align-items: center;
 }
 
 .suliMobile {
-    display: none;
     flex-direction: column;
     align-items: center;
 }
@@ -313,7 +305,6 @@ a:hover {
         justify-content: center;
     }
     .topRight { display: none; }
-    .suliForm {display: none;}
     .suliMobile { display: flex; }
     .topButton {
         width: 50%;
