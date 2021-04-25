@@ -38,7 +38,7 @@ function createTaskRow(newTask, id) {
 	checkButton.setAttribute("data-id", "buttonID" + id);
 
 	// Set up image
-	check.setAttribute("src", "images/check.png");
+	check.setAttribute("src", "../images/check.png");
 	check.setAttribute("alt", "check");
 
 	// Set the text for the elements to display
@@ -80,4 +80,25 @@ function addTask() {
     }).catch(e => console.log(e.message));
 
 	document.getElementById("taskItem").value = "";
+}
+
+
+// https://www.w3schools.com/howto/howto_css_modals.asp
+// Get the modal
+var modal = document.getElementById("menuModal");
+
+function ctrlModal() {
+	if (window.getComputedStyle(modal).display === "none") {
+		modal.style.display = "flex";
+	}
+	else {
+		modal.style.display = "none";
+	}
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }

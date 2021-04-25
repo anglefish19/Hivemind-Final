@@ -16,10 +16,30 @@
     <body>
         <!-- top of page (logo, name of app, sign up, log in) -->
         <header>
-            <button onclick = "document.location = 'today.html'" id = "homeButton" class = "topLeft">
-                <img src = "../images/logo.png" alt = "logo" class = "logo"></img>
+            <button onclick = ctrlModal() id = "homeButton" class = "topLeft wMenu">
+                <img src = "../images/menu.png" alt = "menu" class = "menu"></img>
+                <div class = "menuDiv"></div>
                 <div id = "titleText" class = "titleText">hivemind</div>
             </button>
+
+            <!-- menu -->
+            <div id = "menuModal" class = "modal">
+                <!-- Modal content -->
+                <div id = "modelContent" class = "modal-content">
+                    <button onclick = "document.location = 'today.html'" id = "hive" class = "modalButton">
+                        Hive (Daily Tasks)
+                    </button>
+                    <button id = "listOfTaskLists" class = "modalButton">
+                        View Task Lists
+                    </button>
+                    <button onclick = "document.location = 'today.html'" id = "create" class = "modalButton">
+                        Create New Task List
+                    </button>
+                    <button onclick = "document.location = 'today.html'" id = "join" class = "modalButton">
+                        Join Task List
+                    </button>
+                </div>
+            </div>
 
             <div id = "topRight" class = "topRight">
                 <button onclick = lo() id = "logOutButton" class = "topButton">
@@ -33,67 +53,18 @@
         <div id = "lineMiddle" class = "line3px"></div>
         <div id = "lineBottom" class = "line1px"></div>
 
-        <!-- elements of sign up/log in forms
-        <div id = "suFormTitle" class = "suliForm">
-            <div id = "formTitleText" class = "ftText">- sign up -</div>
-        </div>
-
-        <div id = "liFormTitle" class = "suliForm">
-            <div id = "formTitleText" class = "ftText">- log in -</div>
-        </div>
-
-        
-
-        <div id = "suForm1" class = "suliForm">
-            <div id = "firstName" class = "fbText">first name:</div>
-            <input type = "text" id = "firstNameInput" class = "fInput"/>
-            <div id = "lastName" class = "fbText">last name:</div>
-            <input type = "text" id = "lastNameInput" class = "fInput"/>
-            <div id = "email" class = "fbText">email:</div>
-            <input type = "email" id = "emailInput" class = "fInput"/>
-            <button onclick = "suNext()" id = "suNextButton" class = "suliButton">
-                next
-            </button>
-        </div>
-
-        <div id = "suForm2" class = "suliForm">
-            <div id = "username" class = "fbText">set username:</div>
-            <input type = "text" id = "usernameInput" class = "fInput"/>
-            <div id = "password1" class = "fbText">set password:</div>
-            <input type = "password" id = "passwordInput1" class = "fInput"/>
-            <div id = "password2" class = "fbText">confirm password:</div>
-            <input type = "password" id = "passwordInput2" class = "fInput"/>
-            <button onclick = "su()" id = "suButton" class = "suliButton">
-                sign up!
-            </button>
-        </div>
-
-        <div id = "liForm" class = "suliForm">
-            <div id = "emailLI" class = "fbText">email:</div>
-            <input type = "text" id = "emailInputLI" class = "fInput"/>
-            <div id = "pwLI" class = "fbText">password:</div>
-            <input type = "password" id = "pwInputLI" class = "fInput"/>
-            <button onclick = "li()" id = "liButton" class = "suliButton">
-                log in!
-            </button>
-        </div> -->
-
         <!-- elements of task list -->
-        <div id = "tasklist" class = "tasklist">
-            <div id = "tasklistTitle" class = "listTitle">tasks:</div>
-            <input type = "text" placeholder = "enter task here" id = "taskItem" 
-            class = "fInput tInput" style = "margin-top: 1vh;"/>
-            <button onclick = "addTask()" id = "addTask" class = "suliButton" 
-            style = "margin-top: 2vh; margin-left: 0.5%;">
-                Add Task
-            </button>
+        <div id = "content" class = "tasklist">
+            <div id = "contentTitle" class = "listTitle"></div>
+            <script>
+                // https://www.w3schools.com/js/js_date_methods.asp
+                var d = new Date()
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                var contentTitleText = "Today - " + months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear()
+                document.getElementById("contentTitle").innerHTML = contentTitleText
+            </script>
         </div>
 
-        
-
-        <!-- hexagon border -->
-        <img src = "../images/border.png" alt = "border" class = "border"></img> 
-        
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>

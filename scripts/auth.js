@@ -150,12 +150,12 @@ function su() {
 
     if (username != "" && password1 != "" && password2 != "" && password1 == password2
     && usernameValidation.test(username) && passwordValidation.test(password1)) {
-        sessionStorage.removeItem("firstName");
-        sessionStorage.removeItem("lastName");
-        sessionStorage.removeItem("email");
         auth.createUserWithEmailAndPassword(sessionStorage.getItem("email"), password1).then(() => {
             console.log("Signed up");
         }).catch(e => console.log(e.message));
+        sessionStorage.removeItem("firstName");
+        sessionStorage.removeItem("lastName");
+        sessionStorage.removeItem("email");
     }
 }
 
@@ -174,8 +174,8 @@ auth.onAuthStateChanged(user => {
     if (user) {
         userID = firebase.auth().currentUser;
         console.log(userID.email)
-        dynamicList = document.getElementById("dynamicList");
-        loadTasks();
+        //dynamicList = document.getElementById("dynamicList");
+        //loadTasks();
 
         var currentPage = window.location.href;
         if (!currentPage.includes("today.html")) {
