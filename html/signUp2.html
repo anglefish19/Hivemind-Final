@@ -1,0 +1,53 @@
+<! https://developer.mozilla.org/en-US/docs/Web/HTML/Element >
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title>hivemind - sign up</title>
+        <! https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics >
+        <link href = "stylesheet.css" rel = "stylesheet">
+        <link href = "images/icon.png" rel = "icon">
+
+        <!-- https://stackoverflow.com/questions/22268881/referenceerror-is-not-defined
+             https://www.w3schools.com/jquery/jquery_get_started.asp -->
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    
+    <body>
+        <!-- top of page (logo, name of app, sign up, log in) -->
+        <header id = "topOfPage">
+            <button onclick = "display()" id = "homeButton" class = "topLeft">
+                <img src = "../images/logo.png" alt = "logo" class = "logo"></img>
+                <div id = "titleText" class = "titleText">hivemind</div>
+            </button>
+        </header>
+
+        <script>
+            var topRepeated = sessionStorage.getItem("topRepeated")
+            document.getElementById("topOfPage").insertAdjacentHTML("beforeend", topRepeated)
+
+            var lines = sessionStorage.getItem("lines")
+            document.getElementById("topOfPage").insertAdjacentHTML("afterend", lines)
+        </script>
+
+        <!-- elements of sign up/log in forms -->
+        <div id = "suFormTitle" class = "suliForm">
+            <div id = "formTitleText" class = "ftText">- sign up -</div>
+        </div>
+
+        <div id = "suForm2" class = "suliForm">
+            <div id = "username" class = "fbText">set username:</div>
+            <input type = "text" id = "usernameInput" class = "fInput"/>
+            <div id = "password1" class = "fbText">set password:</div>
+            <input type = "password" id = "passwordInput1" class = "fInput"/>
+            <div id = "password2" class = "fbText">confirm password:</div>
+            <input type = "password" id = "passwordInput2" class = "fInput"/>
+            <button onclick = "su()" id = "suButton" class = "suliButton">
+                sign up!
+            </button>
+        </div>
+
+        <!-- hexagon border -->
+        <img src = "images/border.png" alt = "border" class = "border"></img> 
+    </body>
+</html>

@@ -55,6 +55,23 @@ header {
     justify-content: center;
 }
 
+.topButton:hover {
+    color: rgb(255, 225, 108);
+    cursor: pointer;
+}
+
+a {
+    font-size: 2vh;
+    color: rgb(255, 255, 255);
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-text-stroke: 0.25px rgb(255, 225, 108);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(255, 225, 108);
+}
+
 .line1px {
     display: block;
     height: 0.25vh;

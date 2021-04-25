@@ -15,38 +15,40 @@
     
     <body>
         <!-- top of page (logo, name of app, sign up, log in) -->
-        <div id = "topOfPage"></div>
+        <header>
+            <button id = "homeButton" class = "topLeft">
+                <img src = "images/logo.png" alt = "logo" class = "logo"></img>
+                <div id = "titleText" class = "titleText">hivemind</div>
+            </button>
 
-        <script>
-            var topRepeated = '<header>' +
-                '<button onclick = "display()" id = "homeButton" class = "topLeft">' +
-                    '<img src = "images/logo.png" alt = "logo" class = "logo"></img>' +
-                    '<div id = "titleText" class = "titleText">hivemind</div>' +
-                '</button>' +
+            <div id = "topRight" class = "topRight">
+                <button onclick = "document.location = 'html/signUp1.html'" id = "signUpButton" class = "topButton">
+                    sign up
+                </button>
+                <button onclick = "document.location = 'html/logIn.html'" id = "logInButton" class = "topButton">
+                    log in
+                </button>
+            </div>
+        </header>
 
-                '<div id = "topRight" class = "topRight">' +
-                    '<button onclick = "display(\'suForm1\')" id = "signUpButton" class = "topButton">' +
-                        'sign up' +
-                    '</button>' +
-                    '<button onclick = "display(\'liForm\')" id = "logInButton" class = "topButton">' +
-                        'log in' +
-                    '</button>' +
-                    '<button onclick = "lo()" id = "logOutButton" class = "topButton"' +
-                    'style = "display: none;">' +
-                        'log out' +
-                    '</button>' +
-                '</div>' +
-            '</header>' +
+        <!-- line dividers -->
+        <div id = "lineTop" class = "line1px"></div>
+        <div id = "lineMiddle" class = "line3px"></div>
+        <div id = "lineBottom" class = "line1px"></div>
 
-            '<!-- line dividers -->' +
-            '<div id = "lineTop" class = "line1px"></div>' +
-            '<div id = "lineMiddle" class = "line3px"></div>' +
-            '<div id = "lineBottom" class = "line1px"></div>'
+        <!-- sign up/log in for mobile -->
+        <div id = "suliMobile" class = "suliMobile">
+            <img src = "images/home.png" alt = "cpMobil" class = "centerpiece"></img>
+            <div id = "formTitleText" class = "ftText" style = "margin-top: 5vh;">- sign up/log in -</div>
+            <button onclick = "document.location = 'html/signUp1.html'" id = "signUpButton" class = "topButton">
+                sign up
+            </button>
+            <button onclick = "document.location = 'html/logIn.html'" id = "logInButton" class = "topButton">
+                log in
+            </button>
+        </div>
 
-            document.getElementById("topOfPage").innerHTML = topRepeated
-        </script>
-
-        <!-- elements of sign up/log in forms -->
+        <!-- elements of sign up/log in forms
         <div id = "suFormTitle" class = "suliForm">
             <div id = "formTitleText" class = "ftText">- sign up -</div>
         </div>
@@ -55,20 +57,7 @@
             <div id = "formTitleText" class = "ftText">- log in -</div>
         </div>
 
-        <div id = "suliMobile" class = "suliMobile">
-            <img src = "images/home.png" alt = "cpMobil" class = "centerpiece"></img>
-            <div id = "formTitleText" class = "ftText" style = "margin-top: 5vh;">- sign up/log in -</div>
-            <button onclick = "display('suForm1')" id = "signUpButton" class = "topButton">
-                sign up
-            </button>
-            <button onclick = "display('liForm')" id = "logInButton" class = "topButton">
-                log in
-            </button>
-            <button onclick = "display('liForm')" id = "logOutButton" class = "topButton"
-            style = "display: none;">
-                log out
-            </button>
-        </div>
+        
 
         <div id = "suForm1" class = "suliForm">
             <div id = "firstName" class = "fbText">first name:</div>
@@ -102,7 +91,7 @@
             <button onclick = "li()" id = "liButton" class = "suliButton">
                 log in!
             </button>
-        </div>
+        </div> -->
 
         <!-- elements of task list -->
         <div id = "tasklist" class = "tasklist"  style = "display: none;">

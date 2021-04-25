@@ -1,0 +1,63 @@
+<! https://developer.mozilla.org/en-US/docs/Web/HTML/Element >
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title>hivemind - sign up</title>
+        <! https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics >
+        <link href = "../stylesheet.css" rel = "stylesheet">
+        <link href = "../images/icon.png" rel = "icon">
+
+        <!-- https://stackoverflow.com/questions/22268881/referenceerror-is-not-defined
+             https://www.w3schools.com/jquery/jquery_get_started.asp -->
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    
+    <body>
+        <!-- top of page (logo, name of app, sign up, log in) -->
+        <header>
+            <button onclick = "display()" id = "homeButton" class = "topLeft">
+                <img src = "../images/logo.png" alt = "logo" class = "logo"></img>
+                <div id = "titleText" class = "titleText">hivemind</div>
+            </button>
+
+            <div id = "topRight" class = "topRight">
+                <button id = "signUpButton" class = "topButton">
+                    <a href="html/signUp1.html">sign up</a>
+                </button>
+                <button onclick = "display('liForm')" id = "logInButton" class = "topButton">
+                    log in
+                </button>
+                <button onclick = "lo()" id = "logOutButton" class = "topButton"
+                style = "display: none;">
+                    log out
+                </button>
+            </div>
+        </header>
+
+        <!-- line dividers -->
+        <div id = "lineTop" class = "line1px"></div>
+        <div id = "lineMiddle" class = "line3px"></div>
+        <div id = "lineBottom" class = "line1px"></div>
+
+        <!-- elements of sign up/log in forms -->
+        <div id = "suFormTitle" class = "suliForm">
+            <div id = "formTitleText" class = "ftText">- sign up -</div>
+        </div>
+
+        <div id = "suForm1" class = "suliForm">
+            <div id = "firstName" class = "fbText">first name:</div>
+            <input type = "text" id = "firstNameInput" class = "fInput"/>
+            <div id = "lastName" class = "fbText">last name:</div>
+            <input type = "text" id = "lastNameInput" class = "fInput"/>
+            <div id = "email" class = "fbText">email:</div>
+            <input type = "email" id = "emailInput" class = "fInput"/>
+            <button onclick = "suNext()" id = "suNextButton" class = "suliButton">
+                next
+            </button>
+        </div>
+
+        <!-- hexagon border -->
+        <img src = "../images/border.png" alt = "border" class = "border"></img>
+    </body>
+</html>
