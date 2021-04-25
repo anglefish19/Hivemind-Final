@@ -79,6 +79,7 @@ header {
 }
 
 .suliForm {
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
@@ -144,6 +145,11 @@ header {
     border-radius: 0.5vh;
     margin-top: 6vh;
     outline: none;
+}
+
+.suliButton:hover {
+    color: rgb(255, 225, 108);
+    cursor: pointer;
 }
 
 /* https://www.w3schools.com/howto/howto_css_modals.asp */

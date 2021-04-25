@@ -5,8 +5,8 @@
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
         <title>hivemind - sign up</title>
         <! https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics >
-        <link href = "stylesheet.css" rel = "stylesheet">
-        <link href = "images/icon.png" rel = "icon">
+        <link href = "../stylesheet.css" rel = "stylesheet">
+        <link href = "../images/icon.png" rel = "icon">
 
         <!-- https://stackoverflow.com/questions/22268881/referenceerror-is-not-defined
              https://www.w3schools.com/jquery/jquery_get_started.asp -->
@@ -15,19 +15,11 @@
     
     <body>
         <!-- top of page (logo, name of app, sign up, log in) -->
-        <header id = "topOfPage">
-            <button onclick = "display()" id = "homeButton" class = "topLeft">
-                <img src = "../images/logo.png" alt = "logo" class = "logo"></img>
-                <div id = "titleText" class = "titleText">hivemind</div>
-            </button>
-        </header>
+        <div id = "topOfPage"></div>
 
         <script>
             var topRepeated = sessionStorage.getItem("topRepeated")
-            document.getElementById("topOfPage").insertAdjacentHTML("beforeend", topRepeated)
-
-            var lines = sessionStorage.getItem("lines")
-            document.getElementById("topOfPage").insertAdjacentHTML("afterend", lines)
+            document.getElementById("topOfPage").innerHTML = topRepeated
         </script>
 
         <!-- elements of sign up/log in forms -->
@@ -48,6 +40,33 @@
         </div>
 
         <!-- hexagon border -->
-        <img src = "images/border.png" alt = "border" class = "border"></img> 
+        <img src = "../images/border.png" alt = "border" class = "border"></img> 
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-firestore.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBL9nu533tMMPnu6OZH41onMsJ6dyomdPw",
+            authDomain: "hivemind-36edb.firebaseapp.com",
+            projectId: "hivemind-36edb",
+            storageBucket: "hivemind-36edb.appspot.com",
+            messagingSenderId: "400583586189",
+            appId: "1:400583586189:web:b1d6c8daf1f1bf093a4dc4"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        </script>
+
+        <script src="../scripts/auth.js"></script>
+        <script src="../scripts/userFunctionality.js"></script>
     </body>
 </html>

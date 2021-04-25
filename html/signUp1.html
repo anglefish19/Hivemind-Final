@@ -15,26 +15,34 @@
     
     <body>
         <!-- top of page (logo, name of app, sign up, log in) -->
-        <header>
-            <button onclick = "document.location = '../index.html'" id = "homeButton" class = "topLeft">
-                <img src = "../images/logo.png" alt = "logo" class = "logo"></img>
-                <div id = "titleText" class = "titleText">hivemind</div>
-            </button>
+        <div id = "topOfPage"></div>
 
-            <div id = "topRight" class = "topRight">
-                <button onclick = "document.location = 'signUp1.html'" id = "signUpButton" class = "topButton">
-                    sign up
-                </button>
-                <button onclick = "document.location = 'logIn.html'" id = "logInButton" class = "topButton">
-                    log in
-                </button>
-            </div>
-        </header>
+        <script>
+            var topRepeated = 
+            '<header>' +
+                '<button onclick = "document.location = \'../index.html\'" id = "homeButton" class = "topLeft">' +
+                    '<img src = "../images/logo.png" alt = "logo" class = "logo"></img>' +
+                    '<div id = "titleText" class = "titleText">hivemind</div>' +
+                '</button>' +
 
-        <!-- line dividers -->
-        <div id = "lineTop" class = "line1px"></div>
-        <div id = "lineMiddle" class = "line3px"></div>
-        <div id = "lineBottom" class = "line1px"></div>
+                '<div id = "topRight" class = "topRight">' +
+                    '<button onclick = "document.location = \'signUp1.html\'" id = "signUpButton" class = "topButton">' +
+                        'sign up' +
+                    '</button>' +
+                    '<button onclick = "document.location = \'logIn.html\'" id = "logInButton" class = "topButton">' +
+                        'log in' +
+                    '</button>' +
+                '</div>' +
+            '</header>' +
+
+            '<!-- line dividers -->' +
+            '<div id = "lineTop" class = "line1px"></div>' +
+            '<div id = "lineMiddle" class = "line3px"></div>' +
+            '<div id = "lineBottom" class = "line1px"></div>'
+
+            sessionStorage.setItem("topRepeated", topRepeated)
+            document.getElementById("topOfPage").innerHTML = topRepeated
+        </script>
 
         <!-- elements of sign up/log in forms -->
         <div id = "suFormTitle" class = "suliForm">
@@ -55,5 +63,32 @@
 
         <!-- hexagon border -->
         <img src = "../images/border.png" alt = "border" class = "border"></img>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-firestore.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBL9nu533tMMPnu6OZH41onMsJ6dyomdPw",
+            authDomain: "hivemind-36edb.firebaseapp.com",
+            projectId: "hivemind-36edb",
+            storageBucket: "hivemind-36edb.appspot.com",
+            messagingSenderId: "400583586189",
+            appId: "1:400583586189:web:b1d6c8daf1f1bf093a4dc4"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        </script>
+
+        <script src="../scripts/auth.js"></script>
+        <script src="../scripts/userFunctionality.js"></script>
     </body>
 </html>

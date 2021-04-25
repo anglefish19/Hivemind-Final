@@ -48,6 +48,18 @@
             </button>
         </div>
 
+        <!-- display on "home" page -->
+        <div id = "cpContainer" class = "cpContainer">
+            <img src = "images/home.png" alt = "centerpiece" class = "centerpiece"></img>
+            <div id = "cpText" class = "fbText cpText">
+                Get started by signing up or logging in!
+            </div> 
+        </div>
+
+        <!-- https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event
+        https://www.w3schools.com/jsref/met_document_addeventlistener.asp
+        fixed param issue with second link ^
+        adjusts elements when window is resized -->
         <script>
             function display() {
                 if ($(window).width() <= 875) {
@@ -59,6 +71,7 @@
                     cpContainer.style.display = "flex";
                 }
             }
+            display()
             window.addEventListener("resize", function() { display() })
         </script>
 
@@ -118,13 +131,7 @@
             </button>
         </div> -->
 
-        <!-- display on "home" page -->
-        <div id = "cpContainer" class = "cpContainer">
-            <img src = "images/home.png" alt = "centerpiece" class = "centerpiece"></img>
-            <div id = "cpText" class = "fbText cpText">
-                Get started by signing up or logging in!
-            </div> 
-        </div>
+        
 
         <!-- hexagon border -->
         <img src = "images/border.png" alt = "border" class = "border"></img> 

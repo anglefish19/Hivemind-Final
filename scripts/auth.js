@@ -94,12 +94,6 @@ var email;
 //     }
 // }
 
-// https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event
-// https://www.w3schools.com/jsref/met_document_addeventlistener.asp
-// fixed param issue with second link ^
-// adjusts elements when window is resized
-// window.addEventListener("resize", function() { display("maintain") });
-
 // goes to next page of sign up
 function suNext() {
     var firstName = document.getElementById("firstNameInput").value;
@@ -115,8 +109,10 @@ function suNext() {
     }
 
     if (firstName != "" && lastName != "" && email != "" && emailValidation.test(email)) {
-        suForm1.style.display = "none";
-        suForm2.style.display = "flex";
+        sessionStorage.setItem("firstName", firstName);
+        sessionStorage.setItem("lastName", lastName);
+        sessionStorage.setItem("email", email);
+        window.location.href = "signUp2.html";
     }
     else if (email != "" && !emailValidation.test(email)) {
         console.log("\"" + email + "\" is not a valid email.");
@@ -154,7 +150,10 @@ function su() {
 
     if (username != "" && password1 != "" && password2 != "" && password1 == password2
     && usernameValidation.test(username) && passwordValidation.test(password1)) {
-        auth.createUserWithEmailAndPassword(email, password1).then(() => {
+        sessionStorage.removeItem("firstName");
+        sessionStorage.removeItem("lastName");
+        sessionStorage.removeItem("email");
+        auth.createUserWithEmailAndPassword(sessionStorage.getItem("email"), password1).then(() => {
             console.log("Signed up");
         }).catch(e => console.log(e.message));
     }
@@ -175,16 +174,17 @@ auth.onAuthStateChanged(user => {
     if (user) {
         userID = firebase.auth().currentUser;
         console.log(userID.email)
-        display("logged in");
         dynamicList = document.getElementById("dynamicList");
         loadTasks();
+
+        var currentPage = window.location.href;
+        if (!currentPage.includes("today.html")) {
+            window.location.href = "today.html";
+        }
     }
     else {
-        display();
         if (document.getElementById("dynamicList") != null) {
             document.getElementById("dynamicList").remove();
-            // fixes the duplicate adding of tasks when user logs in/out multiple times
-            window.location.reload();
         }
     }
  }) 
@@ -192,6 +192,9 @@ auth.onAuthStateChanged(user => {
 // logs out
 function lo() {
     auth.signOut();
+    var currentPage = window.location.href;
+    if (currentPage.includes("today.html")) {
+        window.location.href = "../index.html";
+    }
     console.log("Signed Out");
-    display();
 }
