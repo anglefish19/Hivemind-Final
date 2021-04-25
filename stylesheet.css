@@ -194,6 +194,20 @@ header {
     align-items: center;
 }
 
+.modalButton:hover {
+    cursor: pointer;
+}
+
+.loButton {
+    display: none;
+    position: fixed;
+    left: auto;
+    bottom: 0;
+    width: 78%;
+    color: rgb(255, 255, 255);
+    background-color: rgb(167, 122, 32);
+}
+
 .tasklist {
     display: flex;
     flex-direction: column;
@@ -340,5 +354,6 @@ header {
         margin-top: 10vh; 
     }
     .cpContainer { display: none; }
-    .modal-content {width: 80%;}
+    .modal-content {width: 80%; }
+    .loButton { display: flex; }
 }
