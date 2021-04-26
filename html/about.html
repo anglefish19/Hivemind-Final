@@ -1,0 +1,63 @@
+<! https://developer.mozilla.org/en-US/docs/Web/HTML/Element >
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title>hivemind - about</title>
+        <! https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics >
+        <link href = "../stylesheet.css" rel = "stylesheet">
+        <link href = "../images/icon.png" rel = "icon">
+
+        <!-- https://stackoverflow.com/questions/22268881/referenceerror-is-not-defined
+             https://www.w3schools.com/jquery/jquery_get_started.asp -->
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    
+    <body>
+        <!-- top of page (logo, name of app, sign up, log in) -->
+        <div id = "topOfPage"></div>
+
+        <script>
+            document.getElementById("topOfPage").innerHTML = sessionStorage.getItem("topRepeated")
+        </script>
+
+        <!-- contents of page -->
+        <div id = "content" class = "tasklist">
+            <div id = "contentTitle" class = "listTitle" style = "font-style: italic;">About hivemind:</div>
+            <div id = "aboutText" class = "aboutText">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+        </div>
+        
+
+        <!-- hexagon border -->
+        <img src = "../images/border.png" alt = "border" class = "border"></img> 
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-firestore.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBL9nu533tMMPnu6OZH41onMsJ6dyomdPw",
+            authDomain: "hivemind-36edb.firebaseapp.com",
+            projectId: "hivemind-36edb",
+            storageBucket: "hivemind-36edb.appspot.com",
+            messagingSenderId: "400583586189",
+            appId: "1:400583586189:web:b1d6c8daf1f1bf093a4dc4"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        </script>
+
+        <script src="../scripts/auth.js"></script>
+        <script src="../scripts/userFunctionality.js"></script>
+    </body>
+</html>

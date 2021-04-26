@@ -5,6 +5,11 @@
 var dynamicList;
 var taskItem;    // values of the task input box
 
+// changes page to about
+function changePage() {
+	window.location.href = "html/about.html";
+}
+
 // loads the tasks already in database onto page and adds/removes tasks when changes
 // are made
 function loadTasks() {

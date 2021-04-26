@@ -179,7 +179,7 @@ auth.onAuthStateChanged(user => {
 
         var currentPage = window.location.href;
         if (!currentPage.includes("today.html") && !currentPage.includes("create.html") &&
-        !currentPage.includes("join.html")) {
+        !currentPage.includes("join.html") && !currentPage.includes("taskList.html")) {
             window.location.href = "today.html";
         }
     }
@@ -194,7 +194,8 @@ auth.onAuthStateChanged(user => {
 function lo() {
     auth.signOut();
     var currentPage = window.location.href;
-    if (currentPage.includes("today.html")) {
+    if (currentPage.includes("today.html") || currentPage.includes("create.html") ||
+    currentPage.includes("join.html") || currentPage.includes("taskList.html")) {
         window.location.href = "../index.html";
     }
     console.log("Signed Out");

@@ -18,30 +18,7 @@
         <div id = "topOfPage"></div>
 
         <script>
-            var topRepeated = 
-            '<header>' +
-                '<button onclick = "document.location = \'../index.html\'" id = "homeButton" class = "topLeft">' +
-                    '<img src = "../images/logo.png" alt = "logo" class = "logo"></img>' +
-                    '<div id = "titleText" class = "titleText">hivemind</div>' +
-                '</button>' +
-
-                '<div id = "topRight" class = "topRight">' +
-                    '<button onclick = "document.location = \'signUp1.html\'" id = "signUpButton" class = "topButton">' +
-                        'sign up' +
-                    '</button>' +
-                    '<button onclick = "document.location = \'logIn.html\'" id = "logInButton" class = "topButton">' +
-                        'log in' +
-                    '</button>' +
-                '</div>' +
-            '</header>' +
-
-            '<!-- line dividers -->' +
-            '<div id = "lineTop" class = "line1px"></div>' +
-            '<div id = "lineMiddle" class = "line3px"></div>' +
-            '<div id = "lineBottom" class = "line1px"></div>'
-
-            sessionStorage.setItem("topRepeated", topRepeated)
-            document.getElementById("topOfPage").innerHTML = topRepeated
+            document.getElementById("topOfPage").innerHTML = sessionStorage.getItem("topRepeated")
         </script>
 
         <!-- elements of sign up/log in forms -->

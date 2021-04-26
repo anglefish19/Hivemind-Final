@@ -21,16 +21,19 @@
         </script>
 
         <!-- contents of page -->
-        <div id = "content" class = "tasklist">
-            <div id = "contentTitle" class = "listTitle"></div>
-            <script>
-                // https://www.w3schools.com/js/js_date_methods.asp
-                var d = new Date()
-                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-                var contentTitleText = "Today - " + months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear()
-                document.getElementById("contentTitle").innerHTML = contentTitleText
-            </script>
+        <div id = "joinFormTitle" class = "suliForm">
+            <div id = "formTitleText" class = "ftText">- enter code -</div>
         </div>
+
+        <div id = "createForm" class = "suliForm">
+            <input type = "text" id = "tlJoinInput" class = "fInput" style = "margin-top: 2.5vh;"/>
+            <button onclick = "joinTL()" id = "joinTLButton" class = "suliButton">
+                join!
+            </button>
+        </div>
+
+        <!-- hexagon border -->
+        <img src = "../images/border.png" alt = "border" class = "border"></img> 
 
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
