@@ -178,7 +178,8 @@ auth.onAuthStateChanged(user => {
         //loadTasks();
 
         var currentPage = window.location.href;
-        if (!currentPage.includes("today.html")) {
+        if (!currentPage.includes("today.html") && !currentPage.includes("create.html") &&
+        !currentPage.includes("join.html")) {
             window.location.href = "today.html";
         }
     }
