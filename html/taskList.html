@@ -33,55 +33,13 @@
         <div id = "lineMiddle" class = "line3px"></div>
         <div id = "lineBottom" class = "line1px"></div>
 
-        <!-- elements of sign up/log in forms
-        <div id = "suFormTitle" class = "suliForm">
-            <div id = "formTitleText" class = "ftText">- sign up -</div>
-        </div>
-
-        <div id = "liFormTitle" class = "suliForm">
-            <div id = "formTitleText" class = "ftText">- log in -</div>
-        </div>
-
-        
-
-        <div id = "suForm1" class = "suliForm">
-            <div id = "firstName" class = "fbText">first name:</div>
-            <input type = "text" id = "firstNameInput" class = "fInput"/>
-            <div id = "lastName" class = "fbText">last name:</div>
-            <input type = "text" id = "lastNameInput" class = "fInput"/>
-            <div id = "email" class = "fbText">email:</div>
-            <input type = "email" id = "emailInput" class = "fInput"/>
-            <button onclick = "suNext()" id = "suNextButton" class = "suliButton">
-                next
-            </button>
-        </div>
-
-        <div id = "suForm2" class = "suliForm">
-            <div id = "username" class = "fbText">set username:</div>
-            <input type = "text" id = "usernameInput" class = "fInput"/>
-            <div id = "password1" class = "fbText">set password:</div>
-            <input type = "password" id = "passwordInput1" class = "fInput"/>
-            <div id = "password2" class = "fbText">confirm password:</div>
-            <input type = "password" id = "passwordInput2" class = "fInput"/>
-            <button onclick = "su()" id = "suButton" class = "suliButton">
-                sign up!
-            </button>
-        </div>
-
-        <div id = "liForm" class = "suliForm">
-            <div id = "emailLI" class = "fbText">email:</div>
-            <input type = "text" id = "emailInputLI" class = "fInput"/>
-            <div id = "pwLI" class = "fbText">password:</div>
-            <input type = "password" id = "pwInputLI" class = "fInput"/>
-            <button onclick = "li()" id = "liButton" class = "suliButton">
-                log in!
-            </button>
-        </div> -->
-
         <!-- elements of task list -->
         <div id = "tasklist" class = "tasklist">
-            <div id = "tasklistTitle" class = "listTitle">tasks:</div>
+            <div id = "tasklistTitle" class = "listTitle"></div>
             <ul id = "dynamicList"></ul>
+            <script>
+                document.getElementById("tasklistTitle").innerHTML = sessionStorage.getItem("tlName")
+            </script>
             <input type = "text" placeholder = "enter task here" id = "taskItem" 
             class = "fInput tInput" style = "margin-top: 1vh;"/>
             <button onclick = "addTask()" id = "addTask" class = "suliButton" 

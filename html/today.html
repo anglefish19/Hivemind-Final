@@ -33,7 +33,7 @@
                         '<button onclick = "document.location = \'today.html\'" id = "hive" class = "modalButton">' +
                             'Hive (Daily Tasks)' +
                         '</button>' +
-                        '<button id = "listOfTaskLists" class = "modalButton">' +
+                        '<button onclick = tlListing() id = "listOfTaskLists" class = "modalButton">' +
                             'View Task Lists' +
                         '</button>' +
                         '<button onclick = "document.location = \'create.html\'" id = "create" class = "modalButton">' +
@@ -74,6 +74,7 @@
                 var contentTitleText = "Today - " + months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear()
                 document.getElementById("contentTitle").innerHTML = contentTitleText
             </script>
+            <ul id = "dynamicList"></ul>
         </div>
 
         <!-- The core Firebase JS SDK is always required and must be listed first -->

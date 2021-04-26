@@ -14,86 +14,6 @@ var loButton = document.getElementById("logOutButton");
 var userID;
 var email;
 
-// controls which elements are displayed
-// function display(formID) {
-//     if (formID === "suForm1" && window.getComputedStyle(suForm1).display === "none" &&
-//     window.getComputedStyle(suForm2).display === "none") {
-//         suForm1.style.display = "flex";
-//         suForm2.style.display = "none";
-//         suTitle.style.display = "flex";
-//         liForm.style.display = "none";
-//         liTitle.style.display = "none";
-//         suliMobile.style.display = "none";
-//         cpContainer.style.display = "none";
-//     }
-//     else if (formID === "liForm" && window.getComputedStyle(liForm).display === "none") {
-//         suForm1.style.display = "none";
-//         suForm2.style.display = "none";
-//         suTitle.style.display = "none";
-//         liForm.style.display = "flex";
-//         liTitle.style.display = "flex";
-//         suliMobile.style.display = "none";
-//         cpContainer.style.display = "none";
-//     }
-//     else if (formID === "maintain") {
-//         if (window.getComputedStyle(suForm1).display === "none" &&
-//         window.getComputedStyle(suForm2).display === "none" &&
-//         window.getComputedStyle(liForm).display === "none" && 
-//         loButton.style.display === "none") {
-//             if ($(window).width() <= 875) {
-//                 suliMobile.style.display = "flex";
-//                 cpContainer.style.display = "none";
-//             }
-//             else {
-//                 suliMobile.style.display = "none";
-//                 cpContainer.style.display = "flex";
-//             }
-//         }
-//     }
-//     else {
-//         document.getElementById("firstNameInput").value = "";
-//         document.getElementById("lastNameInput").value = "";
-//         document.getElementById("emailInput").value = "";
-//         document.getElementById("usernameInput").value = "";
-//         document.getElementById("passwordInput1").value = "";
-//         document.getElementById("passwordInput2").value = "";
-//         document.getElementById("emailInputLI").value = "";
-//         document.getElementById("pwInputLI").value = "";
-
-//         suForm1.style.display = "none";
-//         suForm2.style.display = "none";
-//         suTitle.style.display = "none";
-//         liForm.style.display = "none";
-//         liTitle.style.display = "none";
-
-//         if (formID === "logged in") {
-//             suButton.style.display = "none";
-//             liButton.style.display = "none";
-//             loButton.style.display = "flex";
-//             tasklist.style.display = "flex";
-
-//             dynamicList = document.createElement("ul");
-//             dynamicList.setAttribute("id", "dynamicList");
-//             document.getElementById("tasklistTitle").append(dynamicList);
-//         }
-//         else {
-//             suButton.style.display = "flex";
-//             liButton.style.display = "flex";
-//             loButton.style.display = "none";
-//             tasklist.style.display = "none";
-
-//             if ($(window).width() <= 875) {
-//                 suliMobile.style.display = "flex";
-//                 cpContainer.style.display = "none";
-//             }
-//             else {
-//                 suliMobile.style.display = "none";
-//                 cpContainer.style.display = "flex";
-//             }
-//         }
-//     }
-// }
-
 // goes to next page of sign up
 function suNext() {
     var firstName = document.getElementById("firstNameInput").value;
@@ -150,6 +70,14 @@ function su() {
 
     if (username != "" && password1 != "" && password2 != "" && password1 == password2
     && usernameValidation.test(username) && passwordValidation.test(password1)) {
+        db.collection("users").doc(sessionStorage.getItem("email")).set({
+            firstName: sessionStorage.getItem("firstName"),
+            lastName: sessionStorage.getItem("lastName"),
+            username: username,
+            email: sessionStorage.getItem("email"),
+            password: password1,
+        }).catch(e => console.log(e.message));
+        
         auth.createUserWithEmailAndPassword(sessionStorage.getItem("email"), password1).then(() => {
             console.log("Signed up");
         }).catch(e => console.log(e.message));
@@ -174,14 +102,21 @@ auth.onAuthStateChanged(user => {
     if (user) {
         userID = firebase.auth().currentUser;
         console.log(userID.email)
-        //dynamicList = document.getElementById("dynamicList");
-        //loadTasks();
 
         var currentPage = window.location.href;
-        if (!currentPage.includes("today.html") && !currentPage.includes("create.html") &&
+        if (currentPage.includes("index.html")) {
+            window.location.href = "html/today.html";
+        }
+        else if (!currentPage.includes("today.html") && !currentPage.includes("create.html") &&
         !currentPage.includes("join.html") && !currentPage.includes("taskList.html")) {
             window.location.href = "today.html";
         }
+
+        dynamicList = document.getElementById("dynamicList");
+        // document.createElement("ul");
+        // dynamicList.setAttribute("data-id", "dynamicList");
+        // sessionStorage.setItem("dynamicList", dynamicList);
+	    loadTasks();
     }
     else {
         if (document.getElementById("dynamicList") != null) {
