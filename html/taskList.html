@@ -15,7 +15,7 @@
     
     <body>
         <!-- top of page (logo, name of app, sign up, log in) -->
-        <header>
+        <!-- <header>
             <button onclick = "document.location = 'today.html'" id = "homeButton" class = "topLeft">
                 <img src = "../images/logo.png" alt = "logo" class = "logo"></img>
                 <div id = "titleText" class = "titleText">hivemind</div>
@@ -26,12 +26,18 @@
                     log out
                 </button>
             </div>
-        </header>
+        </header> -->
 
         <!-- line dividers -->
-        <div id = "lineTop" class = "line1px"></div>
+        <!-- <div id = "lineTop" class = "line1px"></div>
         <div id = "lineMiddle" class = "line3px"></div>
-        <div id = "lineBottom" class = "line1px"></div>
+        <div id = "lineBottom" class = "line1px"></div> -->
+
+        <div id = "topOfPageAndMenu"></div>
+        
+        <script>
+            document.getElementById("topOfPageAndMenu").innerHTML = sessionStorage.getItem("repeated")
+        </script>
 
         <!-- elements of task list -->
         <div id = "tasklist" class = "tasklist">

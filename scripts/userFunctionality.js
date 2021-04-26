@@ -164,20 +164,31 @@ function createTaskRow(newTask, id) {
 		e.stopPropagation();
 		var taskID = e.target.parentElement.getAttribute("data-id"); 
       	taskID = taskID.substring(7);
-		tempRefComplete.add({
-			task: tempRefTasks.doc(taskID).get().then((doc) => {doc.data().task;})
+		
+		var removedTask;
+		tempRefTasks.doc(taskID).get().then((doc) => {
+			removedTask = doc.data().task;
+		}).then(() => {
+			tempRefComplete.add({
+				task: removedTask
+			})
+		}).then(() => {
+			tempRefTasks.doc(taskID).delete();
 		}).catch(e => console.log(e.message));
-		tempRefTasks.doc(taskID).delete();
     })
 
 	// incomplete
 	editButton.addEventListener("click", (e) => {
 		e.stopPropagation();
-		var taskID = e.target.parentElement.getAttribute("data-id"); 
-      	// need to edit this
-		taskID = taskID.substring(7);
+		var taskID = e.target.parentElement.getAttribute("data-id");
+      	taskID = taskID.substring(6);
+
+		var removedTask;
+		tempRefTasks.doc(taskID).get().then((doc) => {
+			removedTask = doc.data().task;
+		})
 		tempRefComplete.add({
-			task: tempRefTasks.doc(taskID).get().then((doc) => {doc.data().task;})
+			task: removedTask
 		}).catch(e => console.log(e.message));
 		tempRefTasks.doc(taskID).delete();
     })
@@ -186,10 +197,17 @@ function createTaskRow(newTask, id) {
 		e.stopPropagation();
 		var taskID = e.target.parentElement.getAttribute("data-id"); 
       	taskID = taskID.substring(3);
-		tempRefDeleted.add({
-			task: tempRefTasks.doc(taskID).get().then((doc) => {doc.data().task;})
+
+		var removedTask;
+		tempRefTasks.doc(taskID).get().then((doc) => {
+			removedTask = doc.data().task;
+		}).then(() => {
+			tempRefDeleted.add({
+				task: removedTask
+			})
+		}).then(() => {
+			tempRefTasks.doc(taskID).delete();
 		}).catch(e => console.log(e.message));
-		tempRefTasks.doc(taskID).delete();
     })
 }
 
