@@ -313,7 +313,7 @@ header {
 .joinCode {
     display: flex;
     height: 5vh;
-    width: 97.5%;
+    width: 95%;
     margin-right: 2.5%;
     padding-left: 1%;
     position: fixed;
@@ -394,4 +394,11 @@ header {
     .modal-content {width: 80%; }
     .loButton { display: flex; }
     .aboutText { margin-right: 0; }
+    .buttonWrap { margin-left: 2.5%; }
+    .taskIcon { height: 1.2vh; }
+    .buttonWrap:hover .taskButton { border-width: 0.125vh; }
+    .tInput { 
+        padding-Left: 1.25%;
+        width: 70%; 
+    }
 }

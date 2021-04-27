@@ -1,4 +1,4 @@
-// majority, if not all, functions within this file contain code borrowed and 
+// some functions within this file contain code borrowed and 
 // adapted from Mrs. Denna's Student Tutoring App and the firebase intro we did 
 // as a class
 
@@ -7,13 +7,15 @@ var taskItem;    // values of the task input box
 var tlName;
 var tlCode;
 
+let unsubscribe;
+
 
 // ABOUT
 function changePage() {
 	window.location.href = "html/about.html";
 }
 
-// USER'S HOMEPAGE
+// USER'S HOMEPAGE (tbc)
 
 // CONTROLS TASK LIST LISTING ON MENU
 function tlListing() {
@@ -88,7 +90,7 @@ function loadTasks() {
 	// var tempRefComplete = tempRef.collection("completed");
 	// var tempRefDeleted = tempRef.collection("deleted");
 
-	tempRefTasks.onSnapshot((snapshot) => {
+	unsubscribe = tempRefTasks.onSnapshot((snapshot) => {
         snapshot.docChanges().forEach((change) => {
 			let li = document.getElementById("liID" + change.doc.id);
 			let aTask = document.getElementById("taskID" + change.doc.id);
@@ -266,6 +268,8 @@ function addTask() {
 
 	document.getElementById("taskItem").value = "";
 }
+
+// JOIN function (tbc)
 
 // https://www.w3schools.com/howto/howto_css_modals.asp
 // Get the modal

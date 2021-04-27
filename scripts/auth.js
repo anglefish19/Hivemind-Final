@@ -1,16 +1,3 @@
-var suForm1 = document.getElementById("suForm1");
-var suForm2 = document.getElementById("suForm2");
-var suTitle = document.getElementById("suFormTitle");
-var liForm = document.getElementById("liForm");
-var liTitle = document.getElementById("liFormTitle");
-var suliMobile = document.getElementById("suliMobile");
-var cpContainer = document.getElementById("cpContainer");
-var tasklist = document.getElementById("tasklist");
-
-var suButton = document.getElementById("signUpButton");
-var liButton = document.getElementById("logInButton");
-var loButton = document.getElementById("logOutButton");
-
 var userID;
 var email;
 
