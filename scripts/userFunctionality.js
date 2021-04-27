@@ -38,14 +38,14 @@ function createTL() {
 				code: tlCode,
 				maker: userID.email,
 				user: userID.email,
-			}).then(() => {viewTL()}).catch(e => console.log(e.message));
+			}).then(() => {window.location.href = "taskList.html"}).catch(e => console.log(e.message));
 		}
 	});
 }
 
 // VIEW TASK LISTS
 function viewTL() {
-	window.location.href = "taskList.html";
+	
 
 	
 }
@@ -58,43 +58,22 @@ function loadTasks() {
 	var tempRefComplete = tempRef.collection("completed");
 	var tempRefDeleted = tempRef.collection("deleted");
 
-	// tempRef.get().then((doc) => {
-	// 	document.getElementById('name').value = doc.data().nameOfStudent;
-	// }).catch((error) => {console.log("Error getting document:", error);});
-
 	tempRefTasks.onSnapshot((snapshot) => {
         snapshot.docChanges().forEach((change) => {
-			const listItemID = "liID" + change.doc.id;
-			let li = document.querySelector("[data-id=" + listItemID + "]");
+			let li = document.getElementById("liID" + change.doc.id);
+			let aTask = document.getElementById("taskID" + change.doc.id);
 
             if (change.type === "added") {
                 createTaskRow(change.doc.data().task, change.doc.id)
             }
             if (change.type === "modified") {
-                li.textContent = change.doc.data().task;
+                aTask.textContent = change.doc.data().task;
             }
             if (change.type === "removed") {
 				li.remove();
             }
         });
     });
-
-
-	// tempRef.onSnapshot(snapshot => {
-	// 	let changes = snapshot.docChanges();
-	// 	changes.forEach(change => {
-	// 		if (change.type == "added") {
-	// 			createTaskRow(change.doc.data().task, change.doc.id)
-	// 		}
-	// 		else if (change.type == "removed") {
-	// 			// finding the li in the DOM of the document that was just removed
-	// 			const idToRemove = "liID" + change.doc.id;
-
-	// 			let li = document.querySelector("[data-id=" + idToRemove + "]");
-	// 			li.remove();
-	// 		}
-	// 	})
-	// });
 }
 
 // adds a task to list
@@ -117,10 +96,11 @@ function createTaskRow(newTask, id) {
     let xButton = document.createElement("button");
     let x = document.createElement("img");
 
-	li.setAttribute("data-id", "liID" + id);
-	checkButton.setAttribute("data-id", "checkID" + id);
-	editButton.setAttribute("data-id", "editID" + id);
-	xButton.setAttribute("data-id", "xID" + id);
+	li.setAttribute("id", "liID" + id);
+	aTask.setAttribute("id", "taskID" + id);
+	checkButton.setAttribute("id", "checkID" + id);
+	editButton.setAttribute("id", "editID" + id);
+	xButton.setAttribute("id", "xID" + id);
 
 	// Set up images
 	check.setAttribute("src", "../images/check.png");
@@ -162,7 +142,7 @@ function createTaskRow(newTask, id) {
 
 	checkButton.addEventListener("click", (e) => {
 		e.stopPropagation();
-		var taskID = e.target.parentElement.getAttribute("data-id"); 
+		var taskID = e.target.parentElement.getAttribute("id"); 
       	taskID = taskID.substring(7);
 		
 		var removedTask;
@@ -180,22 +160,49 @@ function createTaskRow(newTask, id) {
 	// incomplete
 	editButton.addEventListener("click", (e) => {
 		e.stopPropagation();
-		var taskID = e.target.parentElement.getAttribute("data-id");
-      	taskID = taskID.substring(6);
+		var taskID = e.target.parentElement.getAttribute("id");
+		taskID = taskID.substring(6);
 
-		var removedTask;
-		tempRefTasks.doc(taskID).get().then((doc) => {
-			removedTask = doc.data().task;
-		})
-		tempRefComplete.add({
-			task: removedTask
-		}).catch(e => console.log(e.message));
-		tempRefTasks.doc(taskID).delete();
-    })
+		if (document.getElementById("divInputID" + id) === null) {
+			let divInput = document.createElement("div");
+			let divButton = document.createElement("div");
+			let eInput = document.createElement("input");
+			let eButton = document.createElement("button");
+			divInput.setAttribute("id", "divInputID" + id);
+			divButton.setAttribute("id", "divButtonID" + id);
+			eInput.setAttribute("type", "text");
+			eInput.setAttribute("placeholder", "enter the new task here");
+			eInput.setAttribute("id", "editInputID" + id);
+			eInput.setAttribute("style", "height: 4vh;");
+			eButton.setAttribute("style", "margin-top: 2vh; margin-bottom: 2vh; margin-left: 0.5%;");
+			eButton.setAttribute("id", "eButtonID" + id);
+
+			eInput.classList = "fInput tInput";
+			eButton.classList = "suliButton";
+
+			eButton.textContent = "Make Edit";
+
+			divInput.appendChild(eInput);
+			divButton.appendChild(eButton);
+			li.append(divInput);
+			li.append(divButton);
+
+			eButton.onclick = () => { tempRefTasks.doc(taskID).set({
+				task: eInput.value
+			}).then(() => {
+				document.getElementById("divInputID" + id).remove();
+				document.getElementById("divButtonID" + id).remove();
+			}).catch(e => console.log(e.message)) };
+		}
+		else {
+			document.getElementById("divInputID" + id).remove();
+			document.getElementById("divButtonID" + id).remove();
+		}
+	});
 
 	xButton.addEventListener("click", (e) => {
 		e.stopPropagation();
-		var taskID = e.target.parentElement.getAttribute("data-id"); 
+		var taskID = e.target.parentElement.getAttribute("id"); 
       	taskID = taskID.substring(3);
 
 		var removedTask;
