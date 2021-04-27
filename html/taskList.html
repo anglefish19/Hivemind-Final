@@ -33,9 +33,18 @@
             style = "margin-top: 2vh; margin-left: 0.5%;">
                 Add Task
             </button>
-            <ul id = "dynamicList"></ul>
-            <ul id = "dynamicList"></ul>
+            <!-- non-functional placeholders -->
+            <div id = "contentTitle" class = "listTitle" style = "font-size: 2.5vh;">Completed (Click to Expand)</div>
+            <ul id = "completedList"></ul>
+            <div id = "contentTitle" class = "listTitle" style = "font-size: 2.5vh;">Deleted (Click to Expand)</div>
+            <ul id = "deletedList"></ul>
         </div>
+
+        <!-- join code -->
+        <div id = "tlJC" class = "joinCode"></div>
+        <script>
+            document.getElementById("tlJC").innerHTML = "Join Code: " + sessionStorage.getItem("tlCode")
+        </script>
 
         <!-- hexagon border -->
         <img src = "../images/border.png" alt = "border" class = "border"></img> 

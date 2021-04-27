@@ -13,41 +13,71 @@ function changePage() {
 	window.location.href = "html/about.html";
 }
 
+// USER'S HOMEPAGE
+
 // CONTROLS TASK LIST LISTING ON MENU
 function tlListing() {
+	var tempRef = db.collection("users").doc(userID.email).collection("task lists");
 	
+	// https://firebase.google.com/docs/firestore/query-data/get-data
+	tempRef.get().then((querySnapshot) => {
+		querySnapshot.forEach((doc) => {
+			if (document.getElementById("tlAccess" + doc.id) === null) {
+				let tlAccess = document.createElement("button");
+				tlAccess.setAttribute("id", "tlAccess" + doc.id);
+				tlAccess.classList = "modalSubButton";
+				tlAccess.textContent = doc.id;
+				// https://stackoverflow.com/questions/95731/why-does-an-onclick-property-set-with-setattribute-fail-to-work-in-ie
+				tlAccess.onclick = () => { viewTL(doc.id, doc.data().code) };
+
+				document.getElementById("listOfTaskLists").append(tlAccess);
+			}
+			else {
+				document.getElementById("tlAccess" + doc.id).remove();
+			}
+		});
+	});
 }
 
 // CREATE
 function createTL() {
 	tlName = document.getElementById("tlNameInput").value;
 	tlCode = document.getElementById("tlCodeInput").value;
-	sessionStorage.setItem("tlName", tlName);
 	
 	// https://stackoverflow.com/questions/46880323/how-to-check-if-a-cloud-firestore-document-exists-when-using-realtime-updates
 	// https://stackoverflow.com/questions/47997748/is-possible-to-check-if-a-collection-or-sub-collection-exists
-	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlName"));
+	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tlName);
 	
 	tempRef.get().then((doc) => {
 		if (doc.exists) {
 			console.log("You've already used this name; please choose a different one.");
 		}
 		else {
+			var randomNum = getRandomIntInclusive(0, 9999);
+
 			tempRef.set({ 
 				name: tlName,
-				code: tlCode,
+				code: tlCode + randomNum,
 				maker: userID.email,
 				user: userID.email,
-			}).then(() => {window.location.href = "taskList.html"}).catch(e => console.log(e.message));
+			}).then(() => {viewTL(tlName, tlCode + randomNum)}).catch(e => console.log(e.message));
 		}
 	});
 }
 
-// VIEW TASK LISTS
-function viewTL() {
-	
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+// random integer generator
+function getRandomIntInclusive(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
 
-	
+// VIEW TASK LISTS
+function viewTL(tlName, tlCode) {
+	sessionStorage.setItem("tlName", tlName);
+	sessionStorage.setItem("tlCode", tlCode);
+	window.location.href = "taskList.html";
 }
 
 // loads the tasks already in database onto page and adds/removes tasks when changes
@@ -55,8 +85,8 @@ function viewTL() {
 function loadTasks() {
 	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlName"));
 	var tempRefTasks = tempRef.collection("tasks");
-	var tempRefComplete = tempRef.collection("completed");
-	var tempRefDeleted = tempRef.collection("deleted");
+	// var tempRefComplete = tempRef.collection("completed");
+	// var tempRefDeleted = tempRef.collection("deleted");
 
 	tempRefTasks.onSnapshot((snapshot) => {
         snapshot.docChanges().forEach((change) => {
@@ -138,7 +168,9 @@ function createTaskRow(newTask, id) {
 	taskRow.appendChild(editButtonWrap);
 	taskRow.appendChild(xButtonWrap);
     li.appendChild(taskRow);
-    dynamicList.appendChild(li);
+	if (dynamicList != null) {
+    	dynamicList.appendChild(li);
+	}
 
 	checkButton.addEventListener("click", (e) => {
 		e.stopPropagation();
@@ -157,7 +189,6 @@ function createTaskRow(newTask, id) {
 		}).catch(e => console.log(e.message));
     })
 
-	// incomplete
 	editButton.addEventListener("click", (e) => {
 		e.stopPropagation();
 		var taskID = e.target.parentElement.getAttribute("id");

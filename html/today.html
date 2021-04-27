@@ -33,9 +33,10 @@
                         '<button onclick = "document.location = \'today.html\'" id = "hive" class = "modalButton">' +
                             'Hive (Daily Tasks)' +
                         '</button>' +
-                        '<button onclick = tlListing() id = "listOfTaskLists" class = "modalButton">' +
+                        '<button onclick = tlListing() id = "viewTaskLists" class = "modalButton">' +
                             'View Task Lists' +
                         '</button>' +
+                        '<div id = "listOfTaskLists"></div>' +
                         '<button onclick = "document.location = \'create.html\'" id = "create" class = "modalButton">' +
                             'Create New Task List' +
                         '</button>' +
@@ -75,6 +76,11 @@
                 document.getElementById("contentTitle").innerHTML = contentTitleText
             </script>
             <ul id = "dynamicList"></ul>
+            <!-- non-functional placeholders -->
+            <div id = "contentTitle" class = "listTitle" style = "font-size: 2.5vh;">Completed (Click to Expand)</div>
+            <ul id = "completedList"></ul>
+            <div id = "contentTitle" class = "listTitle" style = "font-size: 2.5vh;">Deleted (Click to Expand)</div>
+            <ul id = "deletedList"></ul>
         </div>
 
         <!-- The core Firebase JS SDK is always required and must be listed first -->

@@ -113,9 +113,6 @@ auth.onAuthStateChanged(user => {
         }
 
         dynamicList = document.getElementById("dynamicList");
-        // document.createElement("ul");
-        // dynamicList.setAttribute("data-id", "dynamicList");
-        // sessionStorage.setItem("dynamicList", dynamicList);
 	    loadTasks();
     }
     else {
