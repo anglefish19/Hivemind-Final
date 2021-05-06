@@ -56,13 +56,36 @@ function createTL() {
 		}
 		else {
 			var randomNum = getRandomIntInclusive(0, 9999);
+			var usedNums = [randomNum];
 
-			tempRef.set({ 
-				name: tlName,
-				code: tlCode + randomNum,
-				maker: userID.email,
-				user: userID.email,
-			}).then(() => {viewTL(tlName, tlCode + randomNum)}).catch(e => console.log(e.message));
+			// https://firebase.google.com/docs/firestore/query-data/queries#collection-group-query
+			db.collectionGroup("task lists").get().then((querySnapshot) => {
+				querySnapshot.forEach((tl) => {
+					if(tl.data().code === tlCode + randomNum) {
+						var checkedThrough = false;
+
+						while (!checkedThrough) {
+							for (var i = 0; i < usedNums.length; i++) {
+								if (usedNums[i] === randomNum) {
+									randomNum = getRandomIntInclusive(0, 9999);
+									usedNums.push(randomNum);
+									i = usedNums.length;
+								}
+								else if (i = usedNums.length - 1) {
+									checkedThrough = true;
+								}
+							}
+						}
+					}
+
+					tempRef.set({ 
+						name: tlName,
+						code: tlCode + randomNum,
+						maker: userID.email,
+						user: userID.email,
+					}).then(() => {viewTL(tlName, tlCode + randomNum)}).catch(e => console.log(e.message));
+				});
+			});
 		}
 	});
 }
