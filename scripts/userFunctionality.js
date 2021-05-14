@@ -9,7 +9,6 @@ var tlCode;
 
 let unsubscribe;
 
-
 // ABOUT
 function changePage() {
 	window.location.href = "html/about.html";
@@ -108,27 +107,29 @@ function viewTL(tlName, tlCode) {
 // loads the tasks already in database onto page and adds/removes tasks when changes
 // are made
 function loadTasks() {
-	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlName"));
-	var tempRefTasks = tempRef.collection("tasks");
-	// var tempRefComplete = tempRef.collection("completed");
-	// var tempRefDeleted = tempRef.collection("deleted");
+	if (sessionStorage.getItem("tlName") != null) {
+		var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlName"));
+		var tempRefTasks = tempRef.collection("tasks");
+		// var tempRefComplete = tempRef.collection("completed");
+		// var tempRefDeleted = tempRef.collection("deleted");
 
-	unsubscribe = tempRefTasks.onSnapshot((snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-			let li = document.getElementById("liID" + change.doc.id);
-			let aTask = document.getElementById("taskID" + change.doc.id);
+		unsubscribe = tempRefTasks.onSnapshot((snapshot) => {
+			snapshot.docChanges().forEach((change) => {
+				let li = document.getElementById("liID" + change.doc.id);
+				let aTask = document.getElementById("taskID" + change.doc.id);
 
-            if (change.type === "added") {
-                createTaskRow(change.doc.data().task, change.doc.id)
-            }
-            if (change.type === "modified") {
-                aTask.textContent = change.doc.data().task;
-            }
-            if (change.type === "removed") {
-				li.remove();
-            }
-        });
-    });
+				if (change.type === "added") {
+					createTaskRow(change.doc.data().task, change.doc.id)
+				}
+				if (change.type === "modified") {
+					aTask.textContent = change.doc.data().task;
+				}
+				if (change.type === "removed") {
+					li.remove();
+				}
+			});
+		});
+	}
 }
 
 // adds a task to list
@@ -293,6 +294,39 @@ function addTask() {
 }
 
 // JOIN function (tbc)
+function joinTL() {
+	var code = document.getElementById("tlJoinInput").value;
+	db.collectionGroup("task lists").get().then((querySnapshot) => {
+		querySnapshot.forEach((tl) => {
+			if(tl.data().code === code && tl.data().user != userID.email) {
+				var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tl.data().name);
+
+				tempRef.set({ 
+					name: tl.data().name,
+					code: code,
+					maker: tl.data().maker,
+					user: userID.email,
+				}).then(() => {
+					db.collection(tl.ref.path + "/tasks").get().then((subQS) => {
+						subQS.forEach((taskObj) => {
+							tempRef.collection("tasks").doc(taskObj.id).set({
+								task: taskObj.data().task
+							})
+						})
+					}).catch(e => console.log(e.message)).then(() => {
+						viewTL(tl.data().name, code)
+					}).catch(e => console.log(e.message));
+				});
+			}
+			else if (tl.data().code === code && tl.data().user === userID.email) {
+				console.log("You've already joined this task list.")
+			}
+			else {
+				console.log("Invalid code.")
+			}
+		});
+	});
+}
 
 // https://www.w3schools.com/howto/howto_css_modals.asp
 // Get the modal

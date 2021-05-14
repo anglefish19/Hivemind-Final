@@ -106,6 +106,8 @@ auth.onAuthStateChanged(user => {
         if (document.getElementById("dynamicList") != null) {
             document.getElementById("dynamicList").remove();
         }
+
+        sessionStorage.removeItem("tlName");
     }
  }) 
 
