@@ -47,7 +47,7 @@ function createTL() {
 	
 	// https://stackoverflow.com/questions/46880323/how-to-check-if-a-cloud-firestore-document-exists-when-using-realtime-updates
 	// https://stackoverflow.com/questions/47997748/is-possible-to-check-if-a-collection-or-sub-collection-exists
-	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tlName);
+	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tlCode);
 	
 	tempRef.get().then((doc) => {
 		if (doc.exists) {
@@ -107,8 +107,8 @@ function viewTL(tlName, tlCode) {
 // loads the tasks already in database onto page and adds/removes tasks when changes
 // are made
 function loadTasks() {
-	if (sessionStorage.getItem("tlName") != null) {
-		var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlName"));
+	if (sessionStorage.getItem("tlCode") != null) {
+		var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlCode"));
 		var tempRefTasks = tempRef.collection("tasks");
 		// var tempRefComplete = tempRef.collection("completed");
 		// var tempRefDeleted = tempRef.collection("deleted");
@@ -134,7 +134,7 @@ function loadTasks() {
 
 // adds a task to list
 function createTaskRow(newTask, id) {
-	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlName"));
+	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlCode"));
 	var tempRefTasks = tempRef.collection("tasks");
 	var tempRefComplete = tempRef.collection("completed");
 	var tempRefDeleted = tempRef.collection("deleted");
@@ -282,7 +282,7 @@ function ready() {
 
 // adds task to database
 function addTask() {
-	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlName"));
+	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlCode"));
 	var tempRefTasks = tempRef.collection("tasks");
 
 	ready();
@@ -301,7 +301,7 @@ function joinTL() {
 
 		querySnapshot.forEach((tl) => {
 			if(tl.data().code === code && tl.data().user != userID.email) {
-				var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tl.data().name);
+				var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(code);
 
 				tempRef.set({ 
 					name: tl.data().name,

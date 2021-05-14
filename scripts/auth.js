@@ -108,6 +108,7 @@ auth.onAuthStateChanged(user => {
         }
 
         sessionStorage.removeItem("tlName");
+        sessionStorage.removeItem("tlCode");
     }
  }) 
 
