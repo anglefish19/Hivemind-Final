@@ -297,6 +297,8 @@ function addTask() {
 function joinTL() {
 	var code = document.getElementById("tlJoinInput").value;
 	db.collectionGroup("task lists").get().then((querySnapshot) => {
+		var num = querySnapshot.size;
+
 		querySnapshot.forEach((tl) => {
 			if(tl.data().code === code && tl.data().user != userID.email) {
 				var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tl.data().name);
@@ -307,6 +309,7 @@ function joinTL() {
 					maker: tl.data().maker,
 					user: userID.email,
 				}).then(() => {
+					// https://firebase.google.com/docs/reference/js/firebase.firestore.DocumentReference
 					db.collection(tl.ref.path + "/tasks").get().then((subQS) => {
 						subQS.forEach((taskObj) => {
 							tempRef.collection("tasks").doc(taskObj.id).set({
@@ -322,7 +325,11 @@ function joinTL() {
 				console.log("You've already joined this task list.")
 			}
 			else {
-				console.log("Invalid code.")
+				num = num - 1;
+
+				if (num === 0) {
+					console.log("Invalid code.");
+				}
 			}
 		});
 	});
