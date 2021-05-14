@@ -354,3 +354,7 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+window.onscroll = function(event) {
+	modal.style.height = $(window).height() + $(window).scrollTop();
+}
