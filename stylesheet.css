@@ -241,7 +241,8 @@ header {
 }
 
 .clickableLT {
-    margin-top: 7.5vh;
+    margin-top: 5vh;
+    margin-bottom: 1.25vh;
 }
 
 .task {

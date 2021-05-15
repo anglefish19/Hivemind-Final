@@ -99,7 +99,10 @@ auth.onAuthStateChanged(user => {
             window.location.href = "today.html";
         }
 
-        loadTasks();
+        loadAllTL();
+        if (!(window.location.href.indexOf("today.html") > -1)) {
+            loadTasks("dynamicList", "completedList", "deletedList");
+        }
     }
     else {
         if (document.getElementById("dynamicList") != null) {

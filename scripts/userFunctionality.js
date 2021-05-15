@@ -13,7 +13,63 @@ function changePage() {
 	window.location.href = "html/about.html";
 }
 
-// USER'S HOMEPAGE (tbc)
+// USER'S HOMEPAGE
+function loadAllTL() {
+	// https://stackoverflow.com/questions/4597050/how-to-check-if-the-url-contains-a-given-string
+	if (window.location.href.indexOf("today.html") > -1) {
+		var tempRef = db.collection("users").doc(userID.email).collection("task lists");
+
+		tempRef.get().then((querySnapshot) => {
+			querySnapshot.forEach((doc) => {
+				if (document.getElementById("dynamicList" + doc.id) === null) {
+					sessionStorage.setItem("tlName", doc.data().name);
+					sessionStorage.setItem("tlCode", doc.data().code);
+					
+					let tlTitle1 = document.createElement("div");
+					tlTitle1.setAttribute("id", "tlTitle1" + doc.id);
+					tlTitle1.classList = "listTitle clickableLT";
+					tlTitle1.textContent = doc.data().name;
+					tlTitle1.onclick = () => { viewTL(doc.data().name, doc.data().code) };
+
+					let tlTitle2 = document.createElement("div");
+					tlTitle2.setAttribute("id", "tlTitle2" + doc.id);
+					tlTitle2.classList = "listTitle clickableLT";
+					tlTitle2.textContent = doc.data().name;
+					tlTitle2.onclick = () => { expCol("completedList" + doc.id) };
+
+					let tlTitle3 = document.createElement("div");
+					tlTitle3.setAttribute("id", "tlTitle3" + doc.id);
+					tlTitle3.classList = "listTitle clickableLT";
+					tlTitle3.textContent = doc.data().name;
+					tlTitle3.onclick = () => { expCol("deletedList" + doc.id) };
+
+					let dynamicList = document.createElement("ul");
+					dynamicList.setAttribute("id", "dynamicList" + doc.id);
+
+					let completedList = document.createElement("ul");
+					completedList.setAttribute("id", "completedList" + doc.id);
+					// https://www.w3schools.com/jsref/met_element_setattribute.asp
+					completedList.style.display = "none";
+
+					let deletedList = document.createElement("ul");
+					deletedList.setAttribute("id", "deletedList" + doc.id);
+					deletedList.style.display = "none";
+
+					document.getElementById("dynamicListsContainer").append(tlTitle1);
+					document.getElementById("dynamicListsContainer").append(dynamicList);
+
+					document.getElementById("completedListsContainer").append(tlTitle2);
+					document.getElementById("completedListsContainer").append(completedList);
+
+					document.getElementById("deletedListsContainer").append(tlTitle3);
+					document.getElementById("deletedListsContainer").append(deletedList);
+				}
+
+				loadTasks("dynamicList" + doc.id, "completedList" + doc.id, "deletedList" + doc.id);
+			});
+		});
+	}
+}
 
 // CONTROLS TASK LIST LISTING ON MENU
 function tlListing() {
@@ -137,7 +193,7 @@ function viewTL(tlName, tlCode) {
 
 // loads the tasks already in database onto page and adds/removes tasks when changes
 // are made
-function loadTasks() {
+function loadTasks(dynamicList, completedList, deletedList) {
 	if (sessionStorage.getItem("tlCode") != null) {
 		var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlCode"));
 		var tempRefTasks = tempRef.collection("tasks");
@@ -150,7 +206,7 @@ function loadTasks() {
 				let aTask = document.getElementById("taskID" + change.doc.id);
 
 				if (change.type === "added") {
-					createTaskRow(change.doc.data().task, change.doc.id, "dynamicList")
+					createTaskRow(change.doc.data().task, change.doc.id, dynamicList)
 				}
 				if (change.type === "modified") {
 					aTask.textContent = change.doc.data().task;
@@ -167,7 +223,7 @@ function loadTasks() {
 				let aTask = document.getElementById("taskID" + change.doc.id);
 
 				if (change.type === "added") {
-					createTaskRow(change.doc.data().task, change.doc.id, "completedList")
+					createTaskRow(change.doc.data().task, change.doc.id, completedList)
 				}
 				if (change.type === "modified") {
 					aTask.textContent = change.doc.data().task;
@@ -184,7 +240,7 @@ function loadTasks() {
 				let aTask = document.getElementById("taskID" + change.doc.id);
 
 				if (change.type === "added") {
-					createTaskRow(change.doc.data().task, change.doc.id, "deletedList")
+					createTaskRow(change.doc.data().task, change.doc.id, deletedList)
 				}
 				if (change.type === "modified") {
 					aTask.textContent = change.doc.data().task;
@@ -250,7 +306,7 @@ function createTaskRow(newTask, id, listElement) {
     xButton.classList = "taskButton";
 	x.classList = "taskIcon";
 
-	if (listElement === "dynamicList") {
+	if (listElement.includes("dynamicList")) {
 		checkButton.appendChild(check);
 		checkButtonWrap.appendChild(checkButton);
 		editButton.appendChild(edit);
@@ -261,14 +317,14 @@ function createTaskRow(newTask, id, listElement) {
 	
 	taskRow.appendChild(aTask);
 
-	if (listElement === "dynamicList") {
+	if (listElement.includes("dynamicList")) {
 		taskRow.appendChild(checkButtonWrap);
 		taskRow.appendChild(editButtonWrap);
 		taskRow.appendChild(xButtonWrap);
 	}
 
     li.appendChild(taskRow);
-	
+
 	if (dynamicList != null) {
     	dynamicList.appendChild(li);
 	}
