@@ -30,18 +30,21 @@ function loadAllTL() {
 					tlTitle1.classList = "listTitle clickableLT";
 					tlTitle1.textContent = doc.data().name;
 					tlTitle1.onclick = () => { viewTL(doc.data().name, doc.data().code) };
+					tlTitle1.style.fontSize = "3vh";
 
 					let tlTitle2 = document.createElement("div");
 					tlTitle2.setAttribute("id", "tlTitle2" + doc.id);
 					tlTitle2.classList = "listTitle clickableLT";
 					tlTitle2.textContent = doc.data().name;
 					tlTitle2.onclick = () => { expCol("completedList" + doc.id) };
+					tlTitle2.style.fontSize = "3vh";
 
 					let tlTitle3 = document.createElement("div");
 					tlTitle3.setAttribute("id", "tlTitle3" + doc.id);
 					tlTitle3.classList = "listTitle clickableLT";
 					tlTitle3.textContent = doc.data().name;
 					tlTitle3.onclick = () => { expCol("deletedList" + doc.id) };
+					tlTitle3.style.fontSize = "3vh";
 
 					let dynamicList = document.createElement("ul");
 					dynamicList.setAttribute("id", "dynamicList" + doc.id);
@@ -490,25 +493,33 @@ function joinTL() {
 
 // https://www.w3schools.com/howto/howto_css_modals.asp
 // Get the modal
-var modal = document.getElementById("menuModal");
+var menuModal = document.getElementById("menuModal");
+var rhModal = document.getElementById("rhModal");
 
 function ctrlModal() {
-	if (window.getComputedStyle(modal).display === "none") {
-		modal.style.display = "flex";
+	if (window.getComputedStyle(menuModal).display === "none") {
+		menuModal.style.display = "flex";
 	}
-	else {
-		modal.style.display = "none";
-	}
+	else { menuModal.style.display = "none"; }
+}
+
+function ctrlRHModal() {
+	rhModal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+  if (event.target == menuModal) {
+    menuModal.style.display = "none";
+  }
+
+  if (event.target == rhModal) {
+    rhModal.style.display = "none";
   }
 }
 
-// adjust height of modal (sidebar menu)
+// adjust height of modal
 window.onscroll = function() {
-	modal.style.height = $(window).height() + $(window).scrollTop();
+	menuModal.style.height = $(window).height() + $(window).scrollTop();
+	rhModal.style.height = $(window).height() + $(window).scrollTop();
 }

@@ -1,4 +1,4 @@
-<! https://developer.mozilla.org/en-US/docs/Web/HTML/Element >
+<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element  -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -20,6 +20,29 @@
             document.getElementById("topOfPageAndMenu").innerHTML = sessionStorage.getItem("repeated")
         </script>
 
+        <!-- Revision History -->
+        <div id = "rhModal" class = "modal" style = "display: flex; justify-content: center;">
+            <!-- Modal content -->
+            <div id = "rhContent" class = "rhContent">
+                <img onclick = ctrlRHModal() src = "../images/xrh.png" alt = "x" class = "taskIcon xRH"></img>
+                <div id = "rhTitle" class = "listTitle rhText">
+                    Revision History
+                </div>
+                <div id = "rhAddedTitle" class = "listTitle rhText clickableLT" style = "font-size: 3vh; text-decoration-line: none;">
+                    Added
+                </div>
+                <ul id = "added"></ul>
+                <div id = "rhAddedTitle" class = "listTitle rhText clickableLT" style = "font-size: 3vh; text-decoration-line: none;">
+                    Deleted
+                </div>
+                <ul id = "deleted"></ul>
+                <div id = "rhAddedTitle" class = "listTitle rhText clickableLT" style = "font-size: 3vh; text-decoration-line: none;">
+                    Edited
+                </div>
+                <ul id = "edited"></ul>
+            </div>
+        </div>
+
         <!-- elements of task list -->
         <div id = "tasklist" class = "tasklist">
             <div id = "tasklistTitle" class = "listTitle"></div>
@@ -34,11 +57,11 @@
                 Add Task
             </button>
             <div onclick = "expCol('completedList')" id = "contentTitleCL" class = "listTitle clickableLT" style = "font-size: 2.5vh;">
-                Completed (Click to Expand)
+                Completed (Click to Expand/Collapse)
             </div>
             <ul id = "completedList" style = "display: none;"></ul>
             <div onclick = "expCol('deletedList')" id = "contentTitleDL" class = "listTitle clickableLT" style = "font-size: 2.5vh;">
-                Deleted (Click to Expand)
+                Deleted (Click to Expand/Collapse)
             </div>
             <ul id = "deletedList" style = "display: none;"></ul>
         </div>

@@ -16,7 +16,7 @@ header {
 
 /* https://www.tutorialrepublic.com/faq/how-to-change-the-cursor-into-a-hand-pointer-on-hover
 -using-css.php#:~:text=You%20can%20simply%20use%20the,the%20default%20text%20selection%20cursor. */
-.topLeft:hover, .clickableLT:hover {
+.topLeft:hover, .clickableLT:hover, .taskIcon.xRH:hover {
     cursor: pointer;
 }
 
@@ -174,7 +174,7 @@ header {
     z-index: 1; /* Sit on top */
     left: auto;
     top: 9.5%;
-    width: 100%; /* Full width */
+    width: 99.25%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(63, 55, 25); /* Fallback color */
@@ -186,6 +186,35 @@ header {
     width: 20%; /* Could be more or less, depending on screen size */
     background-color: rgb(63, 55, 25);
     height: 100%;
+}
+
+.rhContent {
+    width: 95%;
+    height: 97.5%;
+    margin-top: 2.5%;
+    background-color: rgb(167, 122, 32);
+    border-color: rgb(63, 55, 25);
+    border-width: 1%;
+    border-style: solid;
+}
+
+.listTitle.rhText {
+    color: rgb(255, 255, 255);
+    margin-left: 2.5%;
+    text-decoration: underline;
+    text-decoration-color: rgb(255, 255, 255);
+}
+
+.listTitle.rhText.clickableLT:hover {
+    color: rgb(63, 55, 25);
+}
+
+.taskIcon.xRH {
+    height: 4vh;
+    position: absolute;
+    right: 0%;
+    margin-top: 0.5%;
+    margin-right: 3%;
 }
 
 .modalButton, .modalSubButton {
@@ -369,6 +398,13 @@ header {
     .border { display: none; }
     .modal-content {width: 40%;}
     .aboutText { margin-right: 5%; }
+    .modal { width: 98.5%; }
+    .rhContent {
+        width: 93%;
+        height: 96.5%;
+        margin-top: 3.5%;
+    }
+    .taskIcon.xRH { margin-right: 4%; }
 }
 
 @media only screen and (max-width: 875px) {
@@ -410,4 +446,16 @@ header {
         padding-Left: 1.25%;
         width: 70%; 
     }
+    .modal { width: 96%; }
+    .rhContent {
+        width: 90%;
+        height: 95%;
+        margin-top: 5%;
+    }
+    .taskIcon.xRH { margin-right: 5.5%; }
+    .listTitle.rhText { margin-top: 20%; }
+}
+
+@media only screen and (max-width: 875px) and (min-height: 1024px) {
+    .modal { width: 97.75%; }
 }
