@@ -27,9 +27,9 @@ function tlListing() {
 				let tlAccess = document.createElement("button");
 				tlAccess.setAttribute("id", "tlAccess" + doc.id);
 				tlAccess.classList = "modalSubButton";
-				tlAccess.textContent = doc.id;
+				tlAccess.textContent = doc.data().name;
 				// https://stackoverflow.com/questions/95731/why-does-an-onclick-property-set-with-setattribute-fail-to-work-in-ie
-				tlAccess.onclick = () => { viewTL(doc.id, doc.data().code) };
+				tlAccess.onclick = () => { viewTL(doc.data().name, doc.data().code) };
 
 				document.getElementById("listOfTaskLists").append(tlAccess);
 			}
@@ -45,46 +45,67 @@ function createTL() {
 	tlName = document.getElementById("tlNameInput").value;
 	tlCode = document.getElementById("tlCodeInput").value;
 	
-	// https://stackoverflow.com/questions/46880323/how-to-check-if-a-cloud-firestore-document-exists-when-using-realtime-updates
-	// https://stackoverflow.com/questions/47997748/is-possible-to-check-if-a-collection-or-sub-collection-exists
-	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tlCode);
-	
-	tempRef.get().then((doc) => {
-		if (doc.exists) {
-			console.log("You've already used this name; please choose a different one.");
-		}
-		else {
-			var randomNum = getRandomIntInclusive(0, 9999);
-			var usedNums = [randomNum];
+	// generates random number to add to code, then checks if that code is used
+	var randomNum = getRandomIntInclusive(0, 9999);
+	var usedNums = [randomNum];
 
-			// https://firebase.google.com/docs/firestore/query-data/queries#collection-group-query
-			db.collectionGroup("task lists").get().then((querySnapshot) => {
-				querySnapshot.forEach((tl) => {
-					if(tl.data().code === tlCode + randomNum) {
-						var checkedThrough = false;
+	// https://firebase.google.com/docs/firestore/query-data/queries#collection-group-query
+	db.collectionGroup("task lists").get().then((querySnapshot) => {
+		querySnapshot.forEach((tl) => {
+			if(tl.data().code === tlCode + randomNum) {
+				var checkedThrough = false;
 
-						while (!checkedThrough) {
-							for (var i = 0; i < usedNums.length; i++) {
-								if (usedNums[i] === randomNum) {
-									randomNum = getRandomIntInclusive(0, 9999);
-									usedNums.push(randomNum);
-									i = usedNums.length;
-								}
-								else if (i = usedNums.length - 1) {
-									checkedThrough = true;
-								}
-							}
+				while (!checkedThrough) {
+					for (var i = 0; i < usedNums.length; i++) {
+						if (usedNums[i] === randomNum) {
+							randomNum = getRandomIntInclusive(0, 9999);
+							usedNums.push(randomNum);
+							i = usedNums.length;
+						}
+						else if (i = usedNums.length - 1) {
+							checkedThrough = true;
 						}
 					}
+				}
+			}
+		});
+	});
 
-					tempRef.set({ 
-						name: tlName,
-						code: tlCode + randomNum,
-						maker: userID.email,
-						user: userID.email,
-					}).then(() => {viewTL(tlName, tlCode + randomNum)}).catch(e => console.log(e.message));
-				});
+
+	// https://stackoverflow.com/questions/46880323/how-to-check-if-a-cloud-firestore-document-exists-when-using-realtime-updates
+	// https://stackoverflow.com/questions/47997748/is-possible-to-check-if-a-collection-or-sub-collection-exists
+	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tlCode + randomNum);
+
+	// checks if user has already made task list with the same name
+	var notUsed = false;
+
+	db.collectionGroup("task lists").get().then((querySnapshot) => {
+		var num = querySnapshot.size;
+
+		if (num === 0) { notUsed = true; }
+		else if (tlName === "") {
+			console.log("Please provide a name for your task list.")
+		}
+		else {
+			querySnapshot.forEach((tl) => {
+				if(tl.data().name === tlName && tl.data().maker === userID.email) {
+					console.log("You've already made a task list with this name.");
+				}
+				else {
+					num = num - 1;
+
+					if (num === 0) { notUsed = true; }
+				}		
 			});
+		}
+	}).then(() => {
+		if (notUsed) {
+			tempRef.set({ 
+				name: tlName,
+				code: tlCode + randomNum,
+				maker: userID.email,
+				user: userID.email,
+			}).then(() => {viewTL(tlName, tlCode + randomNum)}).catch(e => console.log(e.message));
 		}
 	});
 }
@@ -207,9 +228,11 @@ function createTaskRow(newTask, id) {
 		tempRefTasks.doc(taskID).get().then((doc) => {
 			removedTask = doc.data().task;
 		}).then(() => {
-			tempRefComplete.add({
-				task: removedTask
-			})
+			tempRefComplete.get().then((querySnapshot) => {
+				tempRefComplete.doc("task" + (querySnapshot.size + 1)).set({
+					task: removedTask
+				}).catch(e => console.log(e.message));
+			});
 		}).then(() => {
 			tempRefTasks.doc(taskID).delete();
 		}).catch(e => console.log(e.message));
@@ -266,9 +289,11 @@ function createTaskRow(newTask, id) {
 		tempRefTasks.doc(taskID).get().then((doc) => {
 			removedTask = doc.data().task;
 		}).then(() => {
-			tempRefDeleted.add({
-				task: removedTask
-			})
+			tempRefDeleted.get().then((querySnapshot) => {
+				tempRefDeleted.doc("task" + (querySnapshot.size + 1)).set({
+					task: removedTask
+				}).catch(e => console.log(e.message));
+			});
 		}).then(() => {
 			tempRefTasks.doc(taskID).delete();
 		}).catch(e => console.log(e.message));
@@ -286,9 +311,11 @@ function addTask() {
 	var tempRefTasks = tempRef.collection("tasks");
 
 	ready();
-    tempRefTasks.add({
-        task: taskItem
-    }).catch(e => console.log(e.message));
+	tempRefTasks.get().then((querySnapshot) => {
+		tempRefTasks.doc("task" + (querySnapshot.size + 1)).set({
+			task: taskItem
+		}).catch(e => console.log(e.message));
+	});
 
 	document.getElementById("taskItem").value = "";
 }
@@ -355,6 +382,7 @@ window.onclick = function(event) {
   }
 }
 
-window.onscroll = function(event) {
+// adjust height of modal (sidebar menu)
+window.onscroll = function() {
 	modal.style.height = $(window).height() + $(window).scrollTop();
 }
