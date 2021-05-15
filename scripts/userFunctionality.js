@@ -2,7 +2,6 @@
 // adapted from Mrs. Denna's Student Tutoring App and the firebase intro we did 
 // as a class
 
-var dynamicList;
 var taskItem;    // values of the task input box
 var tlName;
 var tlCode;
@@ -130,8 +129,8 @@ function loadTasks() {
 	if (sessionStorage.getItem("tlCode") != null) {
 		var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlCode"));
 		var tempRefTasks = tempRef.collection("tasks");
-		// var tempRefComplete = tempRef.collection("completed");
-		// var tempRefDeleted = tempRef.collection("deleted");
+		var tempRefComplete = tempRef.collection("completed");
+		var tempRefDeleted = tempRef.collection("deleted");
 
 		tempRefTasks.onSnapshot((snapshot) => {
 			snapshot.docChanges().forEach((change) => {
@@ -139,7 +138,41 @@ function loadTasks() {
 				let aTask = document.getElementById("taskID" + change.doc.id);
 
 				if (change.type === "added") {
-					createTaskRow(change.doc.data().task, change.doc.id)
+					createTaskRow(change.doc.data().task, change.doc.id, "dynamicList")
+				}
+				if (change.type === "modified") {
+					aTask.textContent = change.doc.data().task;
+				}
+				if (change.type === "removed") {
+					li.remove();
+				}
+			});
+		});
+
+		tempRefComplete.onSnapshot((snapshot) => {
+			snapshot.docChanges().forEach((change) => {
+				let li = document.getElementById("liID" + change.doc.id);
+				let aTask = document.getElementById("taskID" + change.doc.id);
+
+				if (change.type === "added") {
+					createTaskRow(change.doc.data().task, change.doc.id, "completedList")
+				}
+				if (change.type === "modified") {
+					aTask.textContent = change.doc.data().task;
+				}
+				if (change.type === "removed") {
+					li.remove();
+				}
+			});
+		});
+
+		tempRefDeleted.onSnapshot((snapshot) => {
+			snapshot.docChanges().forEach((change) => {
+				let li = document.getElementById("liID" + change.doc.id);
+				let aTask = document.getElementById("taskID" + change.doc.id);
+
+				if (change.type === "added") {
+					createTaskRow(change.doc.data().task, change.doc.id, "deletedList")
 				}
 				if (change.type === "modified") {
 					aTask.textContent = change.doc.data().task;
@@ -153,7 +186,9 @@ function loadTasks() {
 }
 
 // adds a task to list
-function createTaskRow(newTask, id) {
+function createTaskRow(newTask, id, listElement) {
+	dynamicList = document.getElementById(listElement);
+
 	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlCode"));
 	var tempRefTasks = tempRef.collection("tasks");
 	var tempRefComplete = tempRef.collection("completed");
