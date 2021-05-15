@@ -39,6 +39,18 @@ function tlListing() {
 	});
 }
 
+// EXPAND/COLLAPSE COMPLETED/DELETED
+function expCol(elementID) {
+	toggle = document.getElementById(elementID);
+
+	if (toggle.style.display === "none") {
+		toggle.style.display = "block";
+	}
+	else {
+		toggle.style.display = "none";
+	}
+}
+
 // CREATE
 function createTL() {
 	tlName = document.getElementById("tlNameInput").value;
@@ -238,15 +250,22 @@ function createTaskRow(newTask, id, listElement) {
     xButton.classList = "taskButton";
 	x.classList = "taskIcon";
 
-	checkButton.appendChild(check);
-    checkButtonWrap.appendChild(checkButton);
-	editButton.appendChild(edit);
-    editButtonWrap.appendChild(editButton);
+	if (listElement === "dynamicList") {
+		checkButton.appendChild(check);
+		checkButtonWrap.appendChild(checkButton);
+		editButton.appendChild(edit);
+		editButtonWrap.appendChild(editButton);
+	}
+	
 	xButton.appendChild(x);
     xButtonWrap.appendChild(xButton);
 	taskRow.appendChild(aTask);
-    taskRow.appendChild(checkButtonWrap);
-	taskRow.appendChild(editButtonWrap);
+
+	if (listElement === "dynamicList") {
+		taskRow.appendChild(checkButtonWrap);
+		taskRow.appendChild(editButtonWrap);
+	}
+	
 	taskRow.appendChild(xButtonWrap);
     li.appendChild(taskRow);
 	if (dynamicList != null) {
@@ -320,17 +339,26 @@ function createTaskRow(newTask, id, listElement) {
       	taskID = taskID.substring(3);
 
 		var removedTask;
-		tempRefTasks.doc(taskID).get().then((doc) => {
-			removedTask = doc.data().task;
-		}).then(() => {
-			tempRefDeleted.get().then((querySnapshot) => {
-				tempRefDeleted.doc("task" + (querySnapshot.size + 1)).set({
-					task: removedTask
-				}).catch(e => console.log(e.message));
-			});
-		}).then(() => {
-			tempRefTasks.doc(taskID).delete();
-		}).catch(e => console.log(e.message));
+
+		if (listElement === "dynamicList") {
+			tempRefTasks.doc(taskID).get().then((doc) => {
+				removedTask = doc.data().task;
+			}).then(() => {
+				tempRefDeleted.get().then((querySnapshot) => {
+					tempRefDeleted.doc("task" + (querySnapshot.size + 1)).set({
+						task: removedTask
+					}).catch(e => console.log(e.message));
+				});
+			}).then(() => {
+				tempRefTasks.doc(taskID).delete();
+			}).catch(e => console.log(e.message));
+		}
+		// else if (listElement === "completedList") {
+		// 	tempRefComplete.doc(taskID).delete().catch(e => console.log(e.message));
+		// }
+		// else if (listElement === "deletedList") {
+		// 	tempRefDeleted.doc(taskID).delete().catch(e => console.log(e.message));
+		// }
     })
 }
 
@@ -369,7 +397,7 @@ function addTask() {
 	});
 }
 
-// JOIN function (tbc)
+// JOIN
 function joinTL() {
 	var code = document.getElementById("tlJoinInput").value;
 	db.collectionGroup("task lists").get().then((querySnapshot) => {

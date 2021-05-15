@@ -16,7 +16,7 @@ header {
 
 /* https://www.tutorialrepublic.com/faq/how-to-change-the-cursor-into-a-hand-pointer-on-hover
 -using-css.php#:~:text=You%20can%20simply%20use%20the,the%20default%20text%20selection%20cursor. */
-.topLeft:hover {
+.topLeft:hover, .clickable:hover {
     cursor: pointer;
 }
 
@@ -73,6 +73,10 @@ header {
 .topButton:hover, .suliButton:hover {
     color: rgb(255, 225, 108);
     cursor: pointer;
+}
+
+.clickable:hover {
+    color: rgb(167, 122, 32);
 }
 
 .line1px {
