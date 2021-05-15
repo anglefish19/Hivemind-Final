@@ -222,34 +222,16 @@ function loadTasks(dynamicList, completedList, deletedList) {
 
 		tempRefComplete.onSnapshot((snapshot) => {
 			snapshot.docChanges().forEach((change) => {
-				let li = document.getElementById("liID" + change.doc.id);
-				let aTask = document.getElementById("taskID" + change.doc.id);
-
 				if (change.type === "added") {
 					createTaskRow(change.doc.data().task, change.doc.id, completedList)
-				}
-				if (change.type === "modified") {
-					aTask.textContent = change.doc.data().task;
-				}
-				if (change.type === "removed") {
-					li.remove();
 				}
 			});
 		});
 
 		tempRefDeleted.onSnapshot((snapshot) => {
 			snapshot.docChanges().forEach((change) => {
-				let li = document.getElementById("liID" + change.doc.id);
-				let aTask = document.getElementById("taskID" + change.doc.id);
-
 				if (change.type === "added") {
 					createTaskRow(change.doc.data().task, change.doc.id, deletedList)
-				}
-				if (change.type === "modified") {
-					aTask.textContent = change.doc.data().task;
-				}
-				if (change.type === "removed") {
-					li.remove();
 				}
 			});
 		});
@@ -441,6 +423,19 @@ function addTask() {
 			}).then(() => {
 				tempRefTasks.doc("task" + taskNum).set({
 					task: taskItem
+				}).then(() => {
+					db.collectionGroup("task lists").get().then((querySnapshot) => {
+						querySnapshot.forEach((tl) => {
+							if(tl.data().code === sessionStorage.getItem("tlCode") &&
+							tl.data().user != userID.email) {
+								db.collection(tl.ref.path + "/rhAdd").get().then((subQS) => {
+									db.collection(tl.ref.path + "/rhAdd").doc("task" + (subQS.size + 1)).set({
+										task: taskItem
+									})
+								}).catch(e => console.log(e.message));
+							}
+						});
+					});
 				}).catch(e => console.log(e.message));
 
 				document.getElementById("taskItem").value = "";
