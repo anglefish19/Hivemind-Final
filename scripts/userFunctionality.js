@@ -71,7 +71,6 @@ function createTL() {
 		});
 	});
 
-
 	// https://stackoverflow.com/questions/46880323/how-to-check-if-a-cloud-firestore-document-exists-when-using-realtime-updates
 	// https://stackoverflow.com/questions/47997748/is-possible-to-check-if-a-collection-or-sub-collection-exists
 	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(tlCode + randomNum);
@@ -134,7 +133,7 @@ function loadTasks() {
 		// var tempRefComplete = tempRef.collection("completed");
 		// var tempRefDeleted = tempRef.collection("deleted");
 
-		unsubscribe = tempRefTasks.onSnapshot((snapshot) => {
+		tempRefTasks.onSnapshot((snapshot) => {
 			snapshot.docChanges().forEach((change) => {
 				let li = document.getElementById("liID" + change.doc.id);
 				let aTask = document.getElementById("taskID" + change.doc.id);
@@ -307,17 +306,32 @@ function ready() {
 
 // adds task to database
 function addTask() {
+	var taskNum = 1;
+
 	var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlCode"));
 	var tempRefTasks = tempRef.collection("tasks");
-
+	var tempRefComplete = tempRef.collection("completed");
+	var tempRefDeleted = tempRef.collection("deleted");
+	
 	ready();
-	tempRefTasks.get().then((querySnapshot) => {
-		tempRefTasks.doc("task" + (querySnapshot.size + 1)).set({
-			task: taskItem
-		}).catch(e => console.log(e.message));
-	});
 
-	document.getElementById("taskItem").value = "";
+	tempRefTasks.get().then((querySnapshot) => {
+		taskNum = taskNum + querySnapshot.size;
+	}).then(() => {
+		tempRefComplete.get().then((querySnapshot) => {
+			taskNum = taskNum + querySnapshot.size;
+		}).then(() => {
+			tempRefDeleted.get().then((querySnapshot) => {
+				taskNum = taskNum + querySnapshot.size;
+			}).then(() => {
+				tempRefTasks.doc("task" + taskNum).set({
+					task: taskItem
+				}).catch(e => console.log(e.message));
+
+				document.getElementById("taskItem").value = "";
+			});
+		});
+	});
 }
 
 // JOIN function (tbc)
