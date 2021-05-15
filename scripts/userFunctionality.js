@@ -229,38 +229,9 @@ function loadTasks(dynamicList, completedList, deletedList, added, deleted, edit
 			});
 		}
 
-		tempRefTasks.onSnapshot((snapshot) => {
-			snapshot.docChanges().forEach((change) => {
-				let li = document.getElementById("liID" + change.doc.id);
-				let aTask = document.getElementById("taskID" + change.doc.id);
-
-				if (change.type === "added") {
-					createTaskRow(change.doc.data().task, change.doc.id, dynamicList)
-				}
-				if (change.type === "modified") {
-					aTask.textContent = change.doc.data().task;
-				}
-				if (change.type === "removed") {
-					li.remove();
-				}
-			});
-		});
-
-		tempRefComplete.onSnapshot((snapshot) => {
-			snapshot.docChanges().forEach((change) => {
-				if (change.type === "added") {
-					createTaskRow(change.doc.data().task, change.doc.id, completedList)
-				}
-			});
-		});
-
-		tempRefDeleted.onSnapshot((snapshot) => {
-			snapshot.docChanges().forEach((change) => {
-				if (change.type === "added") {
-					createTaskRow(change.doc.data().task, change.doc.id, deletedList)
-				}
-			});
-		});
+		handleChanges(tempRefTasks, dynamicList);
+		handleChanges(tempRefComplete, completedList);
+		handleChanges(tempRefDeleted, deletedList);
 	}
 }
 
@@ -335,6 +306,10 @@ function createTaskRow(newTask, id, listElement) {
 	xButtonWrap.classList = "buttonWrap";
     xButton.classList = "taskButton";
 	x.classList = "taskIcon";
+
+	if (listElement === "added" || listElement === "deleted" || listElement === "edited") {
+		li.classList = "fbText tText rhBodyText";
+	}
 
 	if (listElement.includes("dynamicList")) {
 		checkButton.appendChild(check);

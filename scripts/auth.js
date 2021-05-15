@@ -101,7 +101,7 @@ auth.onAuthStateChanged(user => {
 
         loadAllTL();
         if (!(window.location.href.indexOf("today.html") > -1)) {
-            loadTasks("dynamicList", "completedList", "deletedList");
+            loadTasks("dynamicList", "completedList", "deletedList", "added", "deleted", "edited");
         }
     }
     else {
