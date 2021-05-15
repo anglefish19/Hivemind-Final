@@ -255,19 +255,20 @@ function createTaskRow(newTask, id, listElement) {
 		checkButtonWrap.appendChild(checkButton);
 		editButton.appendChild(edit);
 		editButtonWrap.appendChild(editButton);
+		xButton.appendChild(x);
+    	xButtonWrap.appendChild(xButton);
 	}
 	
-	xButton.appendChild(x);
-    xButtonWrap.appendChild(xButton);
 	taskRow.appendChild(aTask);
 
 	if (listElement === "dynamicList") {
 		taskRow.appendChild(checkButtonWrap);
 		taskRow.appendChild(editButtonWrap);
+		taskRow.appendChild(xButtonWrap);
 	}
-	
-	taskRow.appendChild(xButtonWrap);
+
     li.appendChild(taskRow);
+	
 	if (dynamicList != null) {
     	dynamicList.appendChild(li);
 	}
@@ -339,26 +340,18 @@ function createTaskRow(newTask, id, listElement) {
       	taskID = taskID.substring(3);
 
 		var removedTask;
-
-		if (listElement === "dynamicList") {
-			tempRefTasks.doc(taskID).get().then((doc) => {
-				removedTask = doc.data().task;
-			}).then(() => {
-				tempRefDeleted.get().then((querySnapshot) => {
-					tempRefDeleted.doc("task" + (querySnapshot.size + 1)).set({
-						task: removedTask
-					}).catch(e => console.log(e.message));
-				});
-			}).then(() => {
-				tempRefTasks.doc(taskID).delete();
-			}).catch(e => console.log(e.message));
-		}
-		// else if (listElement === "completedList") {
-		// 	tempRefComplete.doc(taskID).delete().catch(e => console.log(e.message));
-		// }
-		// else if (listElement === "deletedList") {
-		// 	tempRefDeleted.doc(taskID).delete().catch(e => console.log(e.message));
-		// }
+		
+		tempRefTasks.doc(taskID).get().then((doc) => {
+			removedTask = doc.data().task;
+		}).then(() => {
+			tempRefDeleted.get().then((querySnapshot) => {
+				tempRefDeleted.doc("task" + (querySnapshot.size + 1)).set({
+					task: removedTask
+				}).catch(e => console.log(e.message));
+			});
+		}).then(() => {
+			tempRefTasks.doc(taskID).delete();
+		}).catch(e => console.log(e.message));
     })
 }
 

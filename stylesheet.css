@@ -16,7 +16,7 @@ header {
 
 /* https://www.tutorialrepublic.com/faq/how-to-change-the-cursor-into-a-hand-pointer-on-hover
 -using-css.php#:~:text=You%20can%20simply%20use%20the,the%20default%20text%20selection%20cursor. */
-.topLeft:hover, .clickable:hover {
+.topLeft:hover, .clickableLT:hover {
     cursor: pointer;
 }
 
@@ -75,7 +75,7 @@ header {
     cursor: pointer;
 }
 
-.clickable:hover {
+.clickableLT:hover {
     color: rgb(167, 122, 32);
 }
 
@@ -238,6 +238,10 @@ header {
     letter-spacing: 0.1em;
     -webkit-text-stroke: 0.5px rgb(167, 122, 32);
     margin-top: 2.5vh;
+}
+
+.clickableLT {
+    margin-top: 7.5vh;
 }
 
 .task {

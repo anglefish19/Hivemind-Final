@@ -76,11 +76,14 @@
                 document.getElementById("contentTitle").innerHTML = contentTitleText
             </script>
             <ul id = "dynamicList"></ul>
-            <!-- non-functional placeholders -->
-            <div id = "contentTitle" class = "listTitle" style = "font-size: 2.5vh;">Completed (Click to Expand)</div>
-            <ul id = "completedList"></ul>
-            <div id = "contentTitle" class = "listTitle" style = "font-size: 2.5vh;">Deleted (Click to Expand)</div>
-            <ul id = "deletedList"></ul>
+            <div onclick = "expCol('completedList')" id = "contentTitleCL" class = "listTitle clickableLT" style = "font-size: 2.5vh;">
+                Completed (Click to Expand)
+            </div>
+            <ul id = "completedList" style = "display: none;"></ul>
+            <div onclick = "expCol('deletedList')" id = "contentTitleDL" class = "listTitle clickableLT" style = "font-size: 2.5vh;">
+                Deleted (Click to Expand)
+            </div>
+            <ul id = "deletedList" style = "display: none;"></ul>
         </div>
 
         <!-- The core Firebase JS SDK is always required and must be listed first -->
