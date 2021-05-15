@@ -317,7 +317,7 @@ function createTaskRow(newTask, id, listElement) {
 	checkButton.addEventListener("click", (e) => {
 		e.stopPropagation();
 		var taskID = e.target.parentElement.getAttribute("id"); 
-      	taskID = taskID.substring(7);
+		if(taskID != null) { taskID = taskID.substring(7); }
 		
 		var removedTask;
 		tempRefTasks.doc(taskID).get().then((doc) => {
@@ -336,7 +336,8 @@ function createTaskRow(newTask, id, listElement) {
 	editButton.addEventListener("click", (e) => {
 		e.stopPropagation();
 		var taskID = e.target.parentElement.getAttribute("id");
-		taskID = taskID.substring(6);
+		if (taskID != null) { taskID = taskID.substring(6); }
+		
 
 		if (document.getElementById("divInputID" + id) === null) {
 			let divInput = document.createElement("div");
@@ -362,12 +363,56 @@ function createTaskRow(newTask, id, listElement) {
 			li.append(divInput);
 			li.append(divButton);
 
-			eButton.onclick = () => { tempRefTasks.doc(taskID).set({
-				task: eInput.value
-			}).then(() => {
-				document.getElementById("divInputID" + id).remove();
-				document.getElementById("divButtonID" + id).remove();
-			}).catch(e => console.log(e.message)) };
+			eButton.onclick = () => { 
+				db.collectionGroup("task lists").get().then((querySnapshot) => {
+					querySnapshot.forEach((tl) => {
+						tempRefTasks.doc(taskID).get().then((doc) => {
+							if(tl.data().code === sessionStorage.getItem("tlCode") &&
+							tl.data().user != userID.email) {
+								db.collection(tl.ref.path + "/rhEdit").get().then((subQS) => {
+									var notUpdated = true;
+									var num = subQS.size;
+
+									if (num === 0 && notUpdated) {
+										db.collection(tl.ref.path + "/rhEdit").doc("task" + (subQS.size + 1)).set({
+											task: eInput.value,
+											original: doc.data().task
+										})
+									}
+									
+									subQS.forEach((taskObj) => {
+										if (taskObj.data().task === doc.data().task) {
+											db.doc(taskObj.ref.path).set({ 
+												task: eInput.value,
+												original: taskObj.data().original
+											}).then(() => {
+												notUpdated = false;
+											})
+										}
+										else {
+											num = num - 1;
+
+											if (num === 0 && notUpdated) {
+												db.collection(tl.ref.path + "/rhEdit").doc("task" + (subQS.size + 1)).set({
+													task: eInput.value,
+													original: doc.data().task
+												})
+											}
+										}
+									})
+								}).then(() => {
+									tempRefTasks.doc(taskID).set({
+										task: eInput.value
+									})
+								}).catch(e => console.log(e.message));
+							}
+						})
+					});
+				}).then(() => {
+					document.getElementById("divInputID" + id).remove();
+					document.getElementById("divButtonID" + id).remove();
+				}).catch(e => console.log(e.message));
+			};
 		}
 		else {
 			document.getElementById("divInputID" + id).remove();
@@ -378,7 +423,7 @@ function createTaskRow(newTask, id, listElement) {
 	xButton.addEventListener("click", (e) => {
 		e.stopPropagation();
 		var taskID = e.target.parentElement.getAttribute("id"); 
-      	taskID = taskID.substring(3);
+      	if(taskID != null) { taskID = taskID.substring(3); }
 
 		var removedTask;
 		
@@ -388,6 +433,41 @@ function createTaskRow(newTask, id, listElement) {
 			tempRefDeleted.get().then((querySnapshot) => {
 				tempRefDeleted.doc("task" + (querySnapshot.size + 1)).set({
 					task: removedTask
+				}).then(() => {
+					db.collectionGroup("task lists").get().then((querySnapshot) => {
+						querySnapshot.forEach((tl) => {
+							if(tl.data().code === sessionStorage.getItem("tlCode") &&
+							tl.data().user != userID.email) {
+								var addToDelete = true;
+
+								db.collection(tl.ref.path + "/rhAdd").get().then((subQS) => {
+									subQS.forEach((taskObj) => {
+										if (taskObj.data().task === removedTask) {
+											addToDelete = false;
+											db.doc(taskObj.ref.path).delete();
+										}
+									})
+								}).then(() => {
+									db.collection(tl.ref.path + "/rhEdit").get().then((subQS) => {
+										subQS.forEach((taskObj) => {
+											if (taskObj.data().task === removedTask) {
+												addToDelete = false;
+												db.doc(taskObj.ref.path).delete();
+											}
+										})
+									}).then(() => {
+										if (addToDelete) {
+											db.collection(tl.ref.path + "/rhDelete").get().then((subQS) => {
+												db.collection(tl.ref.path + "/rhDelete").doc("task" + (subQS.size + 1)).set({
+													task: removedTask
+												})
+											}).catch(e => console.log(e.message));
+										}
+									})
+								}).catch(e => console.log(e.message));
+							}
+						});
+					});
 				}).catch(e => console.log(e.message));
 			});
 		}).then(() => {
