@@ -369,28 +369,22 @@ function createTaskRow(newTask, id, listElement) {
 						tempRefTasks.doc(taskID).get().then((doc) => {
 							if(tl.data().code === sessionStorage.getItem("tlCode") &&
 							tl.data().user != userID.email) {
-								db.collection(tl.ref.path + "/rhEdit").get().then((subQS) => {
-									var notUpdated = true;
-									var num = subQS.size;
+								var addToEdit = true;
 
-									if (num === 0 && notUpdated) {
-										db.collection(tl.ref.path + "/rhEdit").doc("task" + (subQS.size + 1)).set({
-											task: eInput.value,
-											original: doc.data().task
-										})
-									}
-									
+								db.collection(tl.ref.path + "/rhAdd").get().then((subQS) => {
 									subQS.forEach((taskObj) => {
 										if (taskObj.data().task === doc.data().task) {
-											db.doc(taskObj.ref.path).set({ 
-												task: eInput.value,
-												original: taskObj.data().original
-											}).then(() => {
-												notUpdated = false;
-											})
+											addToEdit = false;
+											db.doc(taskObj.ref.path).set({
+												task: eInput.value
+											});
 										}
-										else {
-											num = num - 1;
+									})
+								}).then(() => {
+									if (addToEdit) {
+										db.collection(tl.ref.path + "/rhEdit").get().then((subQS) => {
+											var notUpdated = true;
+											var num = subQS.size;
 
 											if (num === 0 && notUpdated) {
 												db.collection(tl.ref.path + "/rhEdit").doc("task" + (subQS.size + 1)).set({
@@ -398,13 +392,39 @@ function createTaskRow(newTask, id, listElement) {
 													original: doc.data().task
 												})
 											}
-										}
-									})
-								}).then(() => {
-									tempRefTasks.doc(taskID).set({
-										task: eInput.value
-									})
-								}).catch(e => console.log(e.message));
+											
+											subQS.forEach((taskObj) => {
+												if (taskObj.data().task === doc.data().task) {
+													db.doc(taskObj.ref.path).set({ 
+														task: eInput.value,
+														original: taskObj.data().original
+													}).then(() => {
+														notUpdated = false;
+													})
+												}
+												else {
+													num = num - 1;
+
+													if (num === 0 && notUpdated) {
+														db.collection(tl.ref.path + "/rhEdit").doc("task" + (subQS.size + 1)).set({
+															task: eInput.value,
+															original: doc.data().task
+														})
+													}
+												}
+											})
+										}).then(() => {
+											tempRefTasks.doc(taskID).set({
+												task: eInput.value
+											})
+										}).catch(e => console.log(e.message));
+									}
+									else {
+										tempRefTasks.doc(taskID).set({
+											task: eInput.value
+										})
+									}
+								})
 							}
 						})
 					});
