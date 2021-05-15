@@ -196,12 +196,38 @@ function viewTL(tlName, tlCode) {
 
 // loads the tasks already in database onto page and adds/removes tasks when changes
 // are made
-function loadTasks(dynamicList, completedList, deletedList) {
+function loadTasks(dynamicList, completedList, deletedList, added, deleted, edited) {
 	if (sessionStorage.getItem("tlCode") != null) {
 		var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(sessionStorage.getItem("tlCode"));
 		var tempRefTasks = tempRef.collection("tasks");
 		var tempRefComplete = tempRef.collection("completed");
 		var tempRefDeleted = tempRef.collection("deleted");
+
+		if (window.location.href.indexOf("taskList.html") > -1) {
+			var rhAdd = tempRef.collection("rhAdd");
+			var rhDelete = tempRef.collection("rhDelete");
+			var rhEdit = tempRef.collection("rhEdit");
+
+			handleChanges(rhAdd, added);
+			handleChanges(rhDelete, deleted);
+	
+			rhEdit.onSnapshot((snapshot) => {
+				snapshot.docChanges().forEach((change) => {
+					let li = document.getElementById("liID" + change.doc.id);
+					let aTask = document.getElementById("taskID" + change.doc.id);
+	
+					if (change.type === "added") {
+						createTaskRow(change.doc.data().task, change.doc.id, edited)
+					}
+					if (change.type === "modified") {
+						aTask.textContent = change.doc.data().task;
+					}
+					if (change.type === "removed") {
+						li.remove();
+					}
+				});
+			});
+		}
 
 		tempRefTasks.onSnapshot((snapshot) => {
 			snapshot.docChanges().forEach((change) => {
@@ -236,6 +262,25 @@ function loadTasks(dynamicList, completedList, deletedList) {
 			});
 		});
 	}
+}
+
+function handleChanges(ref, list) {
+	ref.onSnapshot((snapshot) => {
+		snapshot.docChanges().forEach((change) => {
+			let li = document.getElementById("liID" + change.doc.id);
+			let aTask = document.getElementById("taskID" + change.doc.id);
+
+			if (change.type === "added") {
+				createTaskRow(change.doc.data().task, change.doc.id, list)
+			}
+			if (change.type === "modified") {
+				aTask.textContent = change.doc.data().task;
+			}
+			if (change.type === "removed") {
+				li.remove();
+			}
+		});
+	});
 }
 
 // adds a task to list
