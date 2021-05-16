@@ -653,8 +653,7 @@ function joinTL() {
 		querySnapshot.forEach((tl) => {
 			if(tl.data().code === code && tl.data().user != userID.email && tl.data().user === tl.data().maker) {
 				var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(code);
-				var numTasks;
-
+				
 				tempRef.set({ 
 					name: tl.data().name,
 					code: code,
@@ -663,22 +662,35 @@ function joinTL() {
 				}).then(() => {
 					// https://firebase.google.com/docs/reference/js/firebase.firestore.DocumentReference
 					db.collection(tl.ref.path + "/tasks").get().then((subQS) => {
-						numTasks = subQS.size;
-
 						subQS.forEach((taskObj) => {
 							tempRef.collection("tasks").doc(taskObj.id).set({
 								task: taskObj.data().task
 							}).catch(e => console.log(e.message))
 						})
 					}).catch(e => console.log(e.message)).then(() => {
-						tempRef.collection("tasks").get().then((checkQS) => {
-							if (checkQS.size === numTasks) {
-								viewTL(tl.data().name, code);
-							}
-							else {
-								console.log("Please retry.");
-							}
-						});
+						db.collection(tl.ref.path + "/completed").get().then((subQS) => {
+							subQS.forEach((taskObj) => {
+								tempRef.collection("completed").doc(taskObj.id).set({
+									task: taskObj.data().task
+								}).catch(e => console.log(e.message))
+							})
+						}).then(() => {
+							db.collection(tl.ref.path + "/deleted").get().then((subQS) => {
+								subQS.forEach((taskObj) => {
+									tempRef.collection("deleted").doc(taskObj.id).set({
+										task: taskObj.data().task
+									}).catch(e => console.log(e.message))
+								})
+							}).then(() => {
+								tempRef.collection("tasks").get().then(() => {
+									tempRef.collection("completed").get().then(() => {
+										tempRef.collection("completed").get().then(() => {
+											viewTL(tl.data().name, code);
+										});
+									});
+								});
+							}).catch(e => console.log(e.message));
+						}).catch(e => console.log(e.message));
 					}).catch(e => console.log(e.message));
 				});
 			}
@@ -734,5 +746,6 @@ window.onscroll = function() {
 
 	if (window.location.href.indexOf("taskList.html") > -1) {
 		rhModal.style.height = $(window).height() + $(window).scrollTop();
+		tasklist.style.height = $(window).height() + $(window).scrollTop();
 	}
 }
