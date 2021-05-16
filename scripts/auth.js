@@ -12,7 +12,7 @@ function suNext() {
     const emailValidation = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
     
     if (firstName === "" || lastName === "" || email === "") {
-        console.log("Please make sure that all fields have been completed.");
+        alert("Please make sure that all fields have been completed.");
     }
 
     if (firstName != "" && lastName != "" && email != "" && emailValidation.test(email)) {
@@ -22,7 +22,7 @@ function suNext() {
         window.location.href = "signUp2.html";
     }
     else if (email != "" && !emailValidation.test(email)) {
-        console.log("\"" + email + "\" is not a valid email.");
+        alert("\"" + email + "\" is not a valid email.");
     }
 }
 
@@ -39,19 +39,19 @@ function su() {
     const passwordValidation = /^(?=.{6,18}$)[\S]+$/;
 
     if (username === "" || password1 === "" || password2 === "") {
-        console.log("Please make sure that all fields have been completed.");
+        alert("Please make sure that all fields have been completed.");
     }
     
     if (username != "" && !usernameValidation.test(username)) {
-        console.log("Invalid username. Username must be 6-18 characters long; " + 
+        alert("Invalid username. Username must be 6-18 characters long; " + 
         "acceptable characters include alphanumeric characters, *, -, ~, and .");
     }
     
     if ((password1 != "" || password2 != "") && password1 != password2) {
-        console.log("Passwords do no match.");
+        alert("Passwords do no match.");
     }
     else if (password1 != "" && !passwordValidation.test(password1)) {
-        console.log("Invalid password. Password must be 6-18 characters long and " + 
+        alert("Invalid password. Password must be 6-18 characters long and " + 
         "should not include spaces.");
     }
 
@@ -66,7 +66,7 @@ function su() {
         }).catch(e => console.log(e.message));
         
         auth.createUserWithEmailAndPassword(sessionStorage.getItem("email"), password1).then(() => {
-            console.log("Signed up");
+            alert("Signed up");
         }).catch(e => console.log(e.message));
         sessionStorage.removeItem("firstName");
         sessionStorage.removeItem("lastName");

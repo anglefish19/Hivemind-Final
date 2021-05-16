@@ -153,12 +153,12 @@ function createTL() {
 
 		if (num === 0) { notUsed = true; }
 		else if (tlName === "") {
-			console.log("Please provide a name for your task list.")
+			alert("Please provide a name for your task list.")
 		}
 		else {
 			querySnapshot.forEach((tl) => {
 				if(tl.data().name === tlName && tl.data().maker === userID.email) {
-					console.log("You've already made a task list with this name.");
+					alert("You've already made a task list with this name.");
 				}
 				else {
 					num = num - 1;
