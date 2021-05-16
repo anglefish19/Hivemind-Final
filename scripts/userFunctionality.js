@@ -312,7 +312,7 @@ function createTaskRow(newTask, id, listElement) {
 
 	if (listElement === "added" || listElement === "deleted" || listElement === "edited") {
 		li.classList = "fbText tText rhLI";
-		aTask.classList = "tInput rhBodyText";
+		aTask.classList = "tInput rhBodyText today";
 		originalTask.classList = "tInput";
 		originalTask.style.marginBottom = "1%";
 		user.classList = "tInput rhInfoText";
@@ -391,7 +391,12 @@ function createTaskRow(newTask, id, listElement) {
 								(originalTask != null && doc.data().task === originalTask)) && notDE) {
 									if (listElement === "deleted") {
 										notDE = false;
-										db.doc(doc.ref.path).delete().catch(e => console.log(e.message));
+										tempRefDeleted.doc((querySnapshot.size + 1) + "taskDeleted").set({
+											task: removedTask
+										}).then(() => {
+											db.doc(doc.ref.path).delete().catch(e => console.log(e.message));
+										}).catch(e => console.log(e.message));
+										
 									}
 									else if (listElement === "edited") {
 										db.doc(doc.ref.path).set({
@@ -644,10 +649,11 @@ function joinTL() {
 	var code = document.getElementById("tlJoinInput").value;
 	db.collectionGroup("task lists").get().then((querySnapshot) => {
 		var num = querySnapshot.size;
-
+		
 		querySnapshot.forEach((tl) => {
-			if(tl.data().code === code && tl.data().user != userID.email) {
+			if(tl.data().code === code && tl.data().user != userID.email && tl.data().user === tl.data().maker) {
 				var tempRef = db.collection("users").doc(userID.email).collection("task lists").doc(code);
+				var numTasks;
 
 				tempRef.set({ 
 					name: tl.data().name,
@@ -657,13 +663,22 @@ function joinTL() {
 				}).then(() => {
 					// https://firebase.google.com/docs/reference/js/firebase.firestore.DocumentReference
 					db.collection(tl.ref.path + "/tasks").get().then((subQS) => {
+						numTasks = subQS.size;
+
 						subQS.forEach((taskObj) => {
 							tempRef.collection("tasks").doc(taskObj.id).set({
 								task: taskObj.data().task
 							}).catch(e => console.log(e.message))
 						})
 					}).catch(e => console.log(e.message)).then(() => {
-						viewTL(tl.data().name, code)
+						tempRef.collection("tasks").get().then((checkQS) => {
+							if (checkQS.size === numTasks) {
+								viewTL(tl.data().name, code);
+							}
+							else {
+								console.log("Please retry.");
+							}
+						});
 					}).catch(e => console.log(e.message));
 				});
 			}
@@ -713,8 +728,10 @@ window.onclick = function(event) {
 
 // adjust height of modal
 window.onscroll = function() {
-	menuModal.style.height = $(window).height() + $(window).scrollTop();
-	
+	if (!(window.location.href.indexOf("index.html") > -1) && !(window.location.href.indexOf("about.html") > -1)) {
+		menuModal.style.height = $(window).height() + $(window).scrollTop();
+	}
+
 	if (window.location.href.indexOf("taskList.html") > -1) {
 		rhModal.style.height = $(window).height() + $(window).scrollTop();
 	}

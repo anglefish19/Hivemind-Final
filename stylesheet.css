@@ -163,7 +163,8 @@ header {
 .aboutText {
     font-size: 3vh;
     font-weight: 400;
-    margin-right: 10%;
+    padding-right: 12.5%;
+    text-align: justify;
 }
 
 /* https://www.w3schools.com/howto/howto_css_modals.asp */
@@ -174,7 +175,7 @@ header {
     z-index: 1; /* Sit on top */
     left: auto;
     top: 9.5%;
-    width: 99.25%; /* Full width */
+    width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(63, 55, 25); /* Fallback color */
@@ -186,6 +187,11 @@ header {
     width: 20%; /* Could be more or less, depending on screen size */
     background-color: rgb(63, 55, 25);
     height: 100%;
+}
+
+.modal.rh {
+    top: 0%;
+    position: relative;
 }
 
 .rhContent {
@@ -200,12 +206,12 @@ header {
 
 .rhLI {
     color: rgb(255, 255, 255);
-    margin-left: 2.5%;
+    margin-left: 0.5%;
 }
 
 .listTitle.rhText {
     color: rgb(255, 255, 255);
-    margin-left: 2.5%;
+    margin-left: 0.5%;
     text-decoration: underline;
     text-decoration-color: rgb(255, 255, 255);
 }
@@ -280,7 +286,7 @@ header {
 }
 
 .clickableLT {
-    margin-top: 5vh;
+    margin-top: 2.5vh;
     margin-bottom: 1.25vh;
 }
 
@@ -402,7 +408,9 @@ header {
         left: 83.7%;
     }
     .modal-content {width: 30%;}
-    .aboutText { margin-right: 15%; }
+    .aboutText { 
+        margin-right: 15%; 
+    }
 }
 
 @media only screen and (max-width: 1100px) {
@@ -412,8 +420,7 @@ header {
     .cpText { font-size: 2.25vh; }
     .border { display: none; }
     .modal-content {width: 40%;}
-    .aboutText { margin-right: 5%; }
-    .modal { width: 98.5%; }
+    .aboutText { margin-right: 2.5%; }
     .rhContent {
         width: 93%;
         height: 96.5%;
@@ -453,7 +460,11 @@ header {
     .cpContainer { display: none; }
     .modal-content {width: 80%; }
     .loButton { display: flex; }
-    .aboutText { margin-right: 0; }
+    .aboutText { 
+        font-size: medium;
+        margin-right: 0; 
+        padding-right: 0;
+    }
     .buttonWrap { margin-left: 2.5%; }
     .taskIcon { height: 1.2vh; }
     .buttonWrap:hover .taskButton { border-width: 0.125vh; }
@@ -461,16 +472,18 @@ header {
         padding-Left: 1.25%;
         width: 70%; 
     }
-    .modal { width: 96%; }
+    ul {
+        padding-inline-start: 0;
+    }
+    li {
+        margin-left: 7.5%;
+    }
     .rhContent {
         width: 90%;
         height: 95%;
         margin-top: 5%;
+        padding-left: 5%;
     }
     .taskIcon.xRH { margin-right: 5.5%; }
     .listTitle.rhText { margin-top: 20%; }
-}
-
-@media only screen and (max-width: 875px) and (min-height: 1024px) {
-    .modal { width: 97.75%; }
 }
