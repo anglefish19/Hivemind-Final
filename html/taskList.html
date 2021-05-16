@@ -3,7 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
-        <title>hivemind - today</title>
+        <title id = "title"></title>
+        <script>
+            document.getElementById("title").innerHTML = "hivemind - task list: " + sessionStorage.getItem("tlName")
+        </script>
         <! https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics >
         <link href = "../stylesheet.css" rel = "stylesheet">
         <link href = "../images/icon.png" rel = "icon">
