@@ -28,21 +28,23 @@
                 <div id = "rhTitle" class = "listTitle rhText">
                     Revision History
                 </div>
-                <div onclick = "expCol('added')" id = "rhAddedTitle" class = "listTitle rhText clickableLT" 
-                style = "font-size: 3vh; text-decoration-line: none;">
-                    Added
+                <div id = "rhTL" class = "tasklist">
+                    <div onclick = "expCol('added')" id = "rhAddedTitle" class = "listTitle rhText clickableLT" 
+                    style = "font-size: 3vh; text-decoration-line: none;">
+                        Added
+                    </div>
+                    <ul id = "added" style = "display: none;"></ul>
+                    <div onclick = "expCol('deleted')" id = "rhAddedTitle" class = "listTitle rhText clickableLT" 
+                    style = "font-size: 3vh; text-decoration-line: none;">
+                        Deleted
+                    </div>
+                    <ul id = "deleted" style = "display: none;"></ul>
+                    <div onclick = "expCol('edited')" id = "rhAddedTitle" class = "listTitle rhText clickableLT" 
+                    style = "font-size: 3vh; text-decoration-line: none;">
+                        Edited
+                    </div>
+                    <ul id = "edited" style = "display: none;"></ul>
                 </div>
-                <ul id = "added" style = "display: none;"></ul>
-                <div onclick = "expCol('deleted')" id = "rhAddedTitle" class = "listTitle rhText clickableLT" 
-                style = "font-size: 3vh; text-decoration-line: none;">
-                    Deleted
-                </div>
-                <ul id = "deleted" style = "display: none;"></ul>
-                <div onclick = "expCol('edited')" id = "rhAddedTitle" class = "listTitle rhText clickableLT" 
-                style = "font-size: 3vh; text-decoration-line: none;">
-                    Edited
-                </div>
-                <ul id = "edited" style = "display: none;"></ul>
             </div>
         </div>
 

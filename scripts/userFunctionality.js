@@ -210,23 +210,7 @@ function loadTasks(dynamicList, completedList, deletedList, added, deleted, edit
 
 			handleChanges(rhAdd, added);
 			handleChanges(rhDelete, deleted);
-	
-			rhEdit.onSnapshot((snapshot) => {
-				snapshot.docChanges().forEach((change) => {
-					let li = document.getElementById("liID" + change.doc.id);
-					let aTask = document.getElementById("taskID" + change.doc.id);
-	
-					if (change.type === "added") {
-						createTaskRow(change.doc.data().task, change.doc.id, edited)
-					}
-					if (change.type === "modified") {
-						aTask.textContent = change.doc.data().task;
-					}
-					if (change.type === "removed") {
-						li.remove();
-					}
-				});
-			});
+			handleChanges(rhEdit, edited);
 		}
 
 		handleChanges(tempRefTasks, dynamicList);
@@ -278,6 +262,7 @@ function createTaskRow(newTask, id, listElement) {
 
 	li.setAttribute("id", "liID" + id);
 	aTask.setAttribute("id", "taskID" + id);
+
 	checkButton.setAttribute("id", "checkID" + id);
 	editButton.setAttribute("id", "editID" + id);
 	xButton.setAttribute("id", "xID" + id);
@@ -296,7 +281,7 @@ function createTaskRow(newTask, id, listElement) {
 	// set the class for the styles to apply to the HTML tag
 	li.classList = "fbText tText";
 	taskRow.classList = "task";
-    aTask.classList = "fbInput tInput";
+    aTask.classList = "tInput";
     checkButtonWrap.classList = "buttonWrap";
     checkButton.classList = "taskButton";
 	check.classList = "taskIcon";
@@ -308,23 +293,28 @@ function createTaskRow(newTask, id, listElement) {
 	x.classList = "taskIcon";
 
 	if (listElement === "added" || listElement === "deleted" || listElement === "edited") {
-		li.classList = "fbText tText rhBodyText";
+		li.classList = "fbText tText rhLI";
+		aTask.classList = "tInput rhBodyText";
+		checkButtonWrap.classList = "buttonWrap rhButton";
+		editButtonWrap.classList = "buttonWrap rhButton";
+		xButtonWrap.classList = "buttonWrap rhButton";
 	}
 
-	if (listElement.includes("dynamicList")) {
-		checkButton.appendChild(check);
-		checkButtonWrap.appendChild(checkButton);
-		editButton.appendChild(edit);
-		editButtonWrap.appendChild(editButton);
-		xButton.appendChild(x);
-    	xButtonWrap.appendChild(xButton);
-	}
-	
 	taskRow.appendChild(aTask);
 
-	if (listElement.includes("dynamicList")) {
+	if (listElement.includes("dynamicList") || listElement === "added" || listElement === "deleted" || listElement === "edited") {
+		checkButton.appendChild(check);
+		checkButtonWrap.appendChild(checkButton);
+		if (listElement.includes("dynamicList")) {
+			editButton.appendChild(edit);
+			editButtonWrap.appendChild(editButton);
+		}
+		xButton.appendChild(x);
+    	xButtonWrap.appendChild(xButton);
 		taskRow.appendChild(checkButtonWrap);
-		taskRow.appendChild(editButtonWrap);
+		if (listElement.includes("dynamicList")) {
+			taskRow.appendChild(editButtonWrap);
+		}
 		taskRow.appendChild(xButtonWrap);
 	}
 
@@ -344,7 +334,7 @@ function createTaskRow(newTask, id, listElement) {
 			removedTask = doc.data().task;
 		}).then(() => {
 			tempRefComplete.get().then((querySnapshot) => {
-				tempRefComplete.doc("task" + (querySnapshot.size + 1)).set({
+				tempRefComplete.doc((querySnapshot.size + 1) + "taskComplete").set({
 					task: removedTask
 				}).catch(e => console.log(e.message));
 			});
@@ -359,7 +349,7 @@ function createTaskRow(newTask, id, listElement) {
 		if (taskID != null) { taskID = taskID.substring(6); }
 		
 
-		if (document.getElementById("divInputID" + id) === null) {
+		if (document.getElementById("divInputID" + id) === null && taskID != null) {
 			let divInput = document.createElement("div");
 			let divButton = document.createElement("div");
 			let eInput = document.createElement("input");
@@ -407,7 +397,7 @@ function createTaskRow(newTask, id, listElement) {
 											var num = subQS.size;
 
 											if (num === 0 && notUpdated) {
-												db.collection(tl.ref.path + "/rhEdit").doc("task" + (subQS.size + 1)).set({
+												db.collection(tl.ref.path + "/rhEdit").doc((subQS.size + 1) + "taskRHEdit").set({
 													task: eInput.value,
 													original: doc.data().task
 												})
@@ -426,7 +416,7 @@ function createTaskRow(newTask, id, listElement) {
 													num = num - 1;
 
 													if (num === 0 && notUpdated) {
-														db.collection(tl.ref.path + "/rhEdit").doc("task" + (subQS.size + 1)).set({
+														db.collection(tl.ref.path + "/rhEdit").doc((subQS.size + 1) + "taskRHEdit").set({
 															task: eInput.value,
 															original: doc.data().task
 														})
@@ -442,7 +432,7 @@ function createTaskRow(newTask, id, listElement) {
 									else {
 										tempRefTasks.doc(taskID).set({
 											task: eInput.value
-										})
+										}).catch(e => console.log(e.message))
 									}
 								})
 							}
@@ -454,7 +444,7 @@ function createTaskRow(newTask, id, listElement) {
 				}).catch(e => console.log(e.message));
 			};
 		}
-		else {
+		else if (taskID != null) {
 			document.getElementById("divInputID" + id).remove();
 			document.getElementById("divButtonID" + id).remove();
 		}
@@ -471,7 +461,7 @@ function createTaskRow(newTask, id, listElement) {
 			removedTask = doc.data().task;
 		}).then(() => {
 			tempRefDeleted.get().then((querySnapshot) => {
-				tempRefDeleted.doc("task" + (querySnapshot.size + 1)).set({
+				tempRefDeleted.doc((querySnapshot.size + 1) + "taskDeleted").set({
 					task: removedTask
 				}).then(() => {
 					db.collectionGroup("task lists").get().then((querySnapshot) => {
@@ -498,7 +488,7 @@ function createTaskRow(newTask, id, listElement) {
 									}).then(() => {
 										if (addToDelete) {
 											db.collection(tl.ref.path + "/rhDelete").get().then((subQS) => {
-												db.collection(tl.ref.path + "/rhDelete").doc("task" + (subQS.size + 1)).set({
+												db.collection(tl.ref.path + "/rhDelete").doc((subQS.size + 1) + "taskRHDelete").set({
 													task: removedTask
 												})
 											}).catch(e => console.log(e.message));
@@ -541,7 +531,7 @@ function addTask() {
 			tempRefDeleted.get().then((querySnapshot) => {
 				taskNum = taskNum + querySnapshot.size;
 			}).then(() => {
-				tempRefTasks.doc("task" + taskNum).set({
+				tempRefTasks.doc(taskNum + "task").set({
 					task: taskItem
 				}).then(() => {
 					db.collectionGroup("task lists").get().then((querySnapshot) => {
@@ -549,7 +539,7 @@ function addTask() {
 							if(tl.data().code === sessionStorage.getItem("tlCode") &&
 							tl.data().user != userID.email) {
 								db.collection(tl.ref.path + "/rhAdd").get().then((subQS) => {
-									db.collection(tl.ref.path + "/rhAdd").doc("task" + (subQS.size + 1)).set({
+									db.collection(tl.ref.path + "/rhAdd").doc((subQS.size + 1) + "taskRHAdd").set({
 										task: taskItem
 									})
 								}).catch(e => console.log(e.message));
@@ -585,7 +575,7 @@ function joinTL() {
 						subQS.forEach((taskObj) => {
 							tempRef.collection("tasks").doc(taskObj.id).set({
 								task: taskObj.data().task
-							})
+							}).catch(e => console.log(e.message))
 						})
 					}).catch(e => console.log(e.message)).then(() => {
 						viewTL(tl.data().name, code)
@@ -614,6 +604,9 @@ var rhModal = document.getElementById("rhModal");
 function ctrlModal() {
 	if (window.getComputedStyle(menuModal).display === "none") {
 		menuModal.style.display = "flex";
+		if (window.location.href.indexOf("taskList.html") > -1) {
+			rhModal.style.display = "none";
+		}
 	}
 	else { menuModal.style.display = "none"; }
 }
